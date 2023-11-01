@@ -1,8 +1,11 @@
 FROM node:18
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
+RUN mkdir -p /usr/src/nuxt-app
+WORKDIR /usr/src/nuxt-app
+COPY . .
+RUN npm i
+RUN npm cache clean --force
+RUN npm run build
 
-EXPOSE 8080
+EXPOSE 3000
 
-CMD [ "node" ]
+CMD ["npm", "run", "start"]
