@@ -1,3 +1,3 @@
 <template>
-  Hello TdA
+  <NuxtPage />
 </template>
