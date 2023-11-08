@@ -1,13 +1,10 @@
-const headers = {
-    Accept: 'application/json',
-    'Content-type': 'application/json',
-}
-
 export default defineEventHandler((event) => {
-    return {
-        headers: headers,
-        body: {
-            secret: "The cake is a lie"
-        }
+    const response = {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify({secret: "The cake is a lie"})
     }
+    return response
 })
