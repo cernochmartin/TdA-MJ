@@ -5,7 +5,7 @@
         </NuxtLink>
         <div class="flex gap-8">
             <NuxtLink to="/">Domů</NuxtLink>
-            <NuxtLink to="lecturer">Lektor</NuxtLink>
+            <NuxtLink to="lecturer">Lektoři</NuxtLink>
         </div>
     </nav>
 </template>

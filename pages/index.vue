@@ -3,5 +3,7 @@
 </script>
 
 <template>
-  <h1 class="text-prussian">Hello TdA</h1>
+  <section class="container text-prussian">
+    <h1>Hello TdA</h1>
+  </section>
 </template>
