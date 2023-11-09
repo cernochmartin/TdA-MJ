@@ -18,4 +18,5 @@ console.log(lecturer)
             </div>
         </article>
     </section>
+    
 </template>
