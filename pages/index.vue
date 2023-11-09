@@ -3,5 +3,5 @@
 </script>
 
 <template>
-  <h1 class="text-blue-primary">Hello TdA</h1>
+  <h1 class="text-prussian">Hello TdA</h1>
 </template>
