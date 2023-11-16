@@ -6,6 +6,7 @@ const myData = () => {
   myList.value = mySwitch.value ? useFetch('/api/api').data : 'Why not working'
 }
 myData()
+
 </script>
 <template>
   <pre>{{ myList }}</pre>
