@@ -5,6 +5,6 @@ export default defineEventHandler((event) => {
             "Content-Type": "application/json",
             Accept: "application/json"
         },
-        body: { secret: "The cake is a lie" }
+        secret: "The cake is a lie"
     }    
 })
