@@ -1,6 +1,6 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/supabase'],
   css: ['~/assets/main.css'],
   postcss: {
     plugins: {
@@ -8,10 +8,19 @@ export default defineNuxtConfig({
       autoprefixer: {}
     }
   },
-  // runtimeConfig: {
-  //   MYSQL_HOST: process.env.MYSQL_HOST,
-  //   MYSQL_USER: process.env.MYSQL_USER,
-  //   MYSQL_PASSWORD: process.env.MYSQL_PASSWORD,
-  //   MYSQL_DATABASE: process.env.MYSQL_DATABASE,
-  // },
+  runtimeConfig: {
+    public: {
+      supabaseKey: process.env.SUPABASE_KEY,
+      supabaseUrl: process.env.SUPABASE_URL
+    }
+  },
+  app: {
+    head: {
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1',
+      htmlAttrs: {
+        lang: 'cs'
+      }
+    }
+  }
 })
