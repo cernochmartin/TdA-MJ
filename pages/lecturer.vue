@@ -23,7 +23,7 @@ import lecturer from '../components/lecturer.json'
             </div>
         </article>
         <div class="grid grid-cols-[1fr,1fr,1fr,1fr] gap-2 pt-4">
-            <span v-for="tag in lecturer.tags" class="bg-sky px-1 py-2 flex text-center justify-center items-center shadow-xl rounded-md">{{ tag.name }}</span>
+            <Tag v-for="tag in lecturer.tags" :text="tag.name" />
         </div>
     </section>
 </template>

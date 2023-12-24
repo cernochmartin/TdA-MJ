@@ -13,14 +13,11 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxtjs/tailwindcss": "^6.8.1",
-    "@types/mysql": "^2.15.24",
-    "nuxt": "^3.8.0",
+    "nuxt": "^3.8.2",
     "vue": "^3.3.7",
     "vue-router": "^4.2.5"
   },
   "dependencies": {
-    "@nuxtjs/supabase": "^1.1.4",
-    "dotenv": "^16.3.1",
-    "mysql2": "^3.6.5"
+    "@nuxtjs/supabase": "^1.1.4"
   }
 }

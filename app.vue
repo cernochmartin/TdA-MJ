@@ -5,7 +5,7 @@ useSeoMeta({
 })
 </script>
 <template>
-  <TheNav />
-  <NuxtPage />
-  <TheFooter />
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
