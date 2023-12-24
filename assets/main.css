@@ -15,7 +15,7 @@ h3 {
     font-size: 28px;
 }
 
-p, span, input, label, button {
+p, span, input, label, button, a {
     font-family: 'Open Sans';
     font-size: 18px;
 }
