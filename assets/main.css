@@ -15,9 +15,13 @@ h3 {
     font-size: 28px;
 }
 
-p, span {
+p, span, input, label, button {
     font-family: 'Open Sans';
     font-size: 18px;
+}
+
+input:focus, textarea:focus {
+    outline: none;
 }
 
 .container {

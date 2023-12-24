@@ -1,11 +1,10 @@
 <template>
     <div class="full-page flex">
         <section class="background-teacher w-1/2" />
-        <section class="w-1/2">
+        <section class="w-1/2 p-16">
             <slot />
         </section>
     </div>
-    <TheFooter />
 </template>
 <style scoped>
 .background-teacher {

@@ -2,7 +2,7 @@
 
 </script>
 <template>
-  <section class="container text-prussian">
+  <section class="container text-jet">
     <h1>Hello TdA</h1>
   </section>
 </template>
