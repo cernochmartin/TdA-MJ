@@ -3,6 +3,11 @@ definePageMeta({
     layout: 'auth'
 })
 
+useSeoMeta({
+    title: 'Teacher digital Agency - Autentizace',
+    ogTitle: 'Teacher digital Agency - Autentizace'
+})
+
 const client = useSupabaseClient()
 const route = useRoute().query
 
@@ -21,12 +26,11 @@ async function login() {
 }
 
 async function signUp() {
-    await client.auth.signUp({
+    const { error } = await client.auth.signUp({
         email: credentials.email,
         password: credentials.password
     })
-    .then(() => { navigateTo('/') })
-    .catch((error: string) => { throw error })
+    if (error) console.log(error)
 }
 </script>
 <template>
@@ -35,7 +39,7 @@ async function signUp() {
     </header>
     <div class="flex justify-center">
         <article class="pt-16 text-jet flex flex-col gap-6 border-sky border-1 rounded-xl w-[480px]">
-            <h2 v-if="route.type === 'signUp'">Registrace</h2>
+            <h2 v-if="route.type === 'register'">Registrace</h2>
             <h2 v-else>Příhlášení</h2>
             <div class="flex flex-col gap-2">
                 <label for="text">Zadejte svůj e-mail: <span class="text-sky">*</span></label>
@@ -46,10 +50,11 @@ async function signUp() {
                 <input type="password" placeholder="Heslo*" v-model="credentials.password" />
             </div>
             <hr class="h-1 text-sky bg-sky">
-            <button v-if="route.type === 'signUp'" @click="signUp()">Zaregistrovat se</button>
+            <button v-if="route.type === 'register'" @click="signUp()">Zaregistrovat se</button>
             <button v-else @click="login()">Přihlásit se</button>
-            <button v-if="route.type === 'signUp'" @click="$router.push({ query: {}})">Již mám založený účet</button>
-            <button v-else @click="$router.push({ query: { type: 'signUp' }})">Nemám založený účet</button>
+            <button v-if="route.type === 'register'" @click="$router.push({ query: {}})">Již mám založený účet</button>
+            <button v-else @click="$router.push({ query: { type: 'register' }})">Nemám založený účet</button>
+            
         </article>
     </div>
 </template>

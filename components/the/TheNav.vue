@@ -14,9 +14,10 @@ async function logout() {
         </NuxtLink>
         <div class="flex gap-8">
             <NuxtLink to="/">Domů</NuxtLink>
-            <NuxtLink to="lecturer">Lektoři</NuxtLink>
+            <NuxtLink to="/lecturer">Lektoři</NuxtLink>
         </div>
-        <div>
+        <div class="flex gap-8">
+            <NuxtLink to="/account">Účet</NuxtLink>
             <button @click="logout()">Odhlásit se</button>
         </div>
     </nav>
