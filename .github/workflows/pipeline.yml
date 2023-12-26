@@ -24,5 +24,7 @@ jobs:
         uses: Tour-de-App/upload-app@tda-24
         with:
           team_secret: ${{ secrets.TEAM_SECRET }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           image_name: tda-nuxt
           image_path: /tmp/tda-nuxt.tar
