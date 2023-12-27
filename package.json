@@ -18,6 +18,8 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
-    "@nuxtjs/supabase": "^1.1.4"
+    "@nuxtjs/supabase": "^1.1.4",
+    "install": "^0.13.0",
+    "pnpm": "link:/pnpm"
   }
 }
