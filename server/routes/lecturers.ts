@@ -1,8 +1,9 @@
 import { client } from '~/utils/supabase'
 
 export default defineEventHandler(async (event) => {
-        console.log(event)
+    console.log(event)
 
+    if (event.node.req.method === 'GET') {
         const { data } = await client
             .from('profiles_db')
             .select('*')
@@ -13,6 +14,6 @@ export default defineEventHandler(async (event) => {
                 Accept: "application/json"
             },
             body: data 
-        }
+        }  
     }
-)
+})
