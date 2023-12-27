@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
 
     if (event.node.req.method === 'GET') {
         const { data } = await client
-            .from('profiles_db')
+            .from('lecturer_db')
             .select('*')
         return {
             method: 'GET',
@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     
     if (event.node.req.method === 'POST') {
         const { data } = await client
-            .from('profiles_db')
+            .from('lecturer_db')
             .insert({
                 uuid: '',
                 title_before: '',
