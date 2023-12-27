@@ -18,7 +18,7 @@ const teacherData = reactive({
 const { data: createTeacher } = await useAsyncData('createTeacher', async () => {
     const { data, error } = await client
         .from('profiles_db')
-        .insert([{ 
+        .insert({ 
             title_before: teacherData.title_before, 
             first_name: teacherData.first_name,
             middle_name: teacherData.middle_name,
@@ -28,7 +28,7 @@ const { data: createTeacher } = await useAsyncData('createTeacher', async () => 
             location: teacherData.location,
             bio: teacherData.bio,
             price_per_hour: teacherData.price_per_hour
-        }])
+        })
 
     return data
 })

@@ -8,12 +8,47 @@ export default defineEventHandler(async (event) => {
             .from('profiles_db')
             .select('*')
         return {
-            method: "GET",
+            method: 'GET',
             headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json"
+                'Content-Type': 'application/json',
+                Accept: 'application/json'
             },
             body: data 
         }  
+    }
+    
+    if (event.node.req.method === 'POST') {
+        const { data } = await client
+            .from('profiles_db')
+            .insert({
+                uuid: '',
+                title_before: '',
+                first_name: '',
+                middle_name: '',
+                last_name: '',
+                title_after: '',
+                picture_url: '',
+                location: '',
+                bio: '',
+                price_per_hour: '',
+                tags: [
+                    {
+                        uuid: '',
+                        name: ''
+                    }
+                ],
+                contact: {
+                    telephone_numbers: [''],
+                    emails: ['']
+                }
+            })
+        return {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json'
+            },
+            body: data 
+        }
     }
 })
