@@ -2,25 +2,43 @@ import { client } from '~/utils/supabase'
 
 export default defineEventHandler(async (event) => {
 
+    const uuid = event.node.req.url?.split('/').pop()
+
     if (event.node.req.method === 'GET') {
         const { data } = await client
             .from('lecturer_db')
             .select()
+            .eq('lecturer_uuid', uuid)
         return {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
             },
-            body: data 
+            body: data
         }  
     }
-            
-    if (event.node.req.method === 'POST') {
+
+    if (event.node.req.method === 'DELETE') {
+        await client
+            .from('lecturer_db')
+            .delete()
+            .eq('lecturer_uuid', uuid)
+        return {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json'
+            },
+            body: `Instance ${uuid} deleted succesfully.`
+        }  
+    }
+        
+    if (event.node.req.method === 'PUT') {
         const { data } = await client
             .from('lecturer_db')
-            .insert({
-                title_before: 'asdas',
+            .update({
+                title_before: 'Pejchy 2.0',
                 first_name: 'asdas',
                 middle_name: 'asda',
                 last_name: 'asda',
@@ -29,7 +47,7 @@ export default defineEventHandler(async (event) => {
                 location: 'asdas',
                 bio: 'sada',
                 claim: 'claim',
-                price_per_hour: 111,
+                price_per_hour: 222,
                 tags: [
                     {
                         name: 'asdasd'
@@ -40,13 +58,14 @@ export default defineEventHandler(async (event) => {
                     emails: ['sadsa', 'sdada']
                 }
             })
+            .eq('lecturer_uuid', uuid)
         return {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json'
             },
-            body: data 
-        }
+            body: data
+        }  
     }
 })
