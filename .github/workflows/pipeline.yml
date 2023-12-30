@@ -2,20 +2,15 @@ name: Build and push to TdA
 
 on: [push]
 
+env: 
+  SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }} 
+  SUPABASE_URL: ${{ secrets.SUPABASE_URL }} 
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Create and .env
-        run: touch .env
-          echo SUPABASE_KEY=${SUPABASE_KEY} >> .env
-          echo SUPABASE_URL=${SUPABASE_URL} >> .env
-          cat .env
-        env: 
-          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }} 
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }} 
-
       - name: Check Out Repo
         uses: actions/checkout@v3
 
