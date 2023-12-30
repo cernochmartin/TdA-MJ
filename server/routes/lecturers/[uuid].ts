@@ -47,7 +47,7 @@ export default defineEventHandler(async (event) => {
                 location: 'asdas',
                 bio: 'sada',
                 claim: 'claim',
-                price_per_hour: 111,
+                price_per_hour: 222,
                 tags: [
                     {
                         name: 'asdasd'
