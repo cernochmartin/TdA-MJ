@@ -11,13 +11,8 @@ jobs:
       PROJECT_ID: jeyqlbttyosywybqsvmj
 
     steps:
-
-      - uses: actions/checkout@v3
-      - uses: supabase/setup-cli@v1
-        with:
-          version: latest
-      - run: supabase init
-      - run: supabase functions deploy github-action-deploy --project-ref $PROJECT_ID --debug
+      - name: 'Create and .env'
+        run: echo "${{ secrets.ENV_FILE }}" > .env
 
       - name: Check Out Repo
         uses: actions/checkout@v3
