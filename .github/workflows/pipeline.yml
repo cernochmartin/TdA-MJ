@@ -6,13 +6,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      PROJECT_ID: jeyqlbttyosywybqsvmj
-
     steps:
-      - name: 'Create and .env'
-        run: echo "${{ secrets.ENV_FILE }}" > .env
+      - name: Create and .env
+        run: touch .env
+          echo SUPABASE_KEY=${SUPABASE_KEY} >> .env
+          echo SUPABASE_URL=${SUPABASE_URL} >> .env
+          cat .env
+        env: 
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }} 
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }} 
 
       - name: Check Out Repo
         uses: actions/checkout@v3
