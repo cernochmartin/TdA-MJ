@@ -8,7 +8,7 @@ jobs:
 
     env:
       SUPABASE_ACCESS_TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpleXFsYnR0eW9zeXd5YnFzdm1qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDIyMzUxODgsImV4cCI6MjAxNzgxMTE4OH0.wJzXlm1340wscwomu-Q2_jZ3N-wTMMUhp1zu9Y3gDoI
-      PROJECT_ID: https://jeyqlbttyosywybqsvmj.supabase.co
+      PROJECT_ID: jeyqlbttyosywybqsvmj
 
     steps:
 
@@ -16,7 +16,7 @@ jobs:
       - uses: supabase/setup-cli@v1
         with:
           version: latest
-      - run: supabase functions deploy --project-ref https://jeyqlbttyosywybqsvmj.supabase.co
+      - run: supabase functions deploy --project-ref $PROJECT_ID
 
       - name: Check Out Repo
         uses: actions/checkout@v3
