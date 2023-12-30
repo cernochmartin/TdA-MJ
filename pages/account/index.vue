@@ -35,8 +35,7 @@ const teacherData = reactive({
 </script>
 <template>
     {{ currentUser.data.session?.user.email }}
-    {{ }}
-    <input type="text" v-model="teacherData.title_before" />
+    <!-- <input type="text" v-model="teacherData.title_before" />
     <input type="text" v-model="teacherData.first_name" />
     <input type="text" v-model="teacherData.middle_name" />
     <input type="text" v-model="teacherData.last_name" />
@@ -44,5 +43,5 @@ const teacherData = reactive({
     <input type="text" v-model="teacherData.picture_url" />
     <input type="text" v-model="teacherData.location" />
     <textarea type="text" v-model="teacherData.bio" />
-    <input type="text" v-model="teacherData.price_per_hour" />
+    <input type="text" v-model="teacherData.price_per_hour" />  -->
 </template>
