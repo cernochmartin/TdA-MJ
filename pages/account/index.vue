@@ -34,14 +34,17 @@ const teacherData = reactive({
 // })
 </script>
 <template>
-    {{ currentUser.data.session?.user.email }}
-    <!-- <input type="text" v-model="teacherData.title_before" />
-    <input type="text" v-model="teacherData.first_name" />
-    <input type="text" v-model="teacherData.middle_name" />
-    <input type="text" v-model="teacherData.last_name" />
-    <input type="text" v-model="teacherData.title_after" />
-    <input type="text" v-model="teacherData.picture_url" />
-    <input type="text" v-model="teacherData.location" />
-    <textarea type="text" v-model="teacherData.bio" />
-    <input type="text" v-model="teacherData.price_per_hour" />  -->
+    <section class="container">
+        {{ currentUser.data.session?.user.email }}
+        <!-- <input type="text" v-model="teacherData.title_before" />
+        <input type="text" v-model="teacherData.first_name" />
+        <input type="text" v-model="teacherData.middle_name" />
+        <input type="text" v-model="teacherData.last_name" />
+        <input type="text" v-model="teacherData.title_after" />
+        <input type="text" v-model="teacherData.picture_url" />
+        <input type="text" v-model="teacherData.location" />
+        <textarea type="text" v-model="teacherData.bio" />
+        <input type="text" v-model="teacherData.price_per_hour" />  -->
+        <NuxtLink to="/account/teacher" class="arrow-link">Jste lektor? Založte si profil lektora.</NuxtLink>
+    </section>
 </template>

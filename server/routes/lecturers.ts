@@ -5,7 +5,11 @@ export default defineEventHandler(async (event) => {
     if (event.node.req.method === 'GET') {
         const { data } = await client
             .from('lecturer_db')
-            .select()
+            .select(`*
+                telephone_db(
+                    telephone
+                )
+            `)
         return {
             method: 'GET',
             headers: {
@@ -20,7 +24,7 @@ export default defineEventHandler(async (event) => {
         const { data } = await client
             .from('lecturer_db')
             .insert({
-                title_before: 'asdas',
+                title_before: 'tohle jsem jaaa',
                 first_name: 'asdas',
                 middle_name: 'asda',
                 last_name: 'asda',
@@ -36,7 +40,7 @@ export default defineEventHandler(async (event) => {
                     }
                 ],
                 contact: {
-                    telephone_numbers: ['sadas', 'sadasd'],
+                    telephone_numbers: ['uknow23', 'sadasd'],
                     emails: ['sadsa', 'sdada']
                 }
             })

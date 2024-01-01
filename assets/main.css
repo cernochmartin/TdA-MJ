@@ -29,8 +29,31 @@ input:focus, textarea:focus {
     margin-left: auto;
     margin-right: auto;
     min-height: 100vh;
+    padding-bottom: 32px;
 }
 
 .full-page {
     min-height: 100vh;
+}
+
+.animation-up {
+    position: relative;
+    top: 0;
+    transition: top ease 0.5s;
+}
+  
+.animation-up:hover {
+    top: -6px;
+}
+
+.arrow-link {
+    position: relative;
+    right: 0;
+    transition: right ease 0.5s;
+}
+  
+.arrow-link:hover {
+    right: -6px;
+    text-decoration: underline;
+    text-underline-position: under;
 }

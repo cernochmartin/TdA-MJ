@@ -54,7 +54,6 @@ async function signUp() {
             <button v-else @click="login()">Přihlásit se</button>
             <button v-if="route.type === 'register'" @click="$router.push({ query: {}})">Již mám založený účet</button>
             <button v-else @click="$router.push({ query: { type: 'register' }})">Nemám založený účet</button>
-            
         </article>
     </div>
 </template>
