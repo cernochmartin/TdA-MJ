@@ -5,7 +5,13 @@ const uuid = useRoute().path.split('/').pop()
 
 const { data } = await useFetch<any>(`/lecturers/${uuid}`)
 const body = data.value.body as Body[]
-console.log(body)
+
+useSeoMeta({
+  title: 'Teacher digital Agency | Profil lektora',
+  ogTitle: 'Teacher digital Agency | Profil lektora',
+  description: 'Teacher digital Agency profil lektora ' + `${uuid}.`,
+  ogDescription: 'Teacher digital Agency profil lektora ' + `${uuid}.`,
+})
 </script>
 <template>
     <section v-for="lecturer in body" :key="lecturer.lecturer_uuid" class="container pt-32">
@@ -23,11 +29,11 @@ console.log(body)
                 <div class="flex flex-col gap-2">
                     <div class="flex flex-col gap-1">
                         <span class="text-prussian/70">Místo pobytu lektora:</span>
-                        <span>{{ lecturer.location }}</span>
+                        <span>{{ lecturer?.location }}</span>
                     </div>
                     <div class="flex flex-col gap-1">
                         <span class="text-prussian/70">Plat za hodinu:</span>
-                        <span>{{ lecturer.price_per_hour }} Kč</span>
+                        <span>{{ lecturer?.price_per_hour }} Kč</span>
                     </div>
                     <div class="flex flex-col gap-1">
                         <span class="text-prussian/70">E-mail:</span>

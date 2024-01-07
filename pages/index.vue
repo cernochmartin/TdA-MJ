@@ -37,7 +37,7 @@ const links = [
     </div>
     <div class="pt-32 flex flex-col gap-8">
       <div class="flex gap-8">
-        <div class="w-1/3 p-4 rounded-xl border-sky border-2">
+        <div class="w-1/3 p-4 rounded-xl border-sky border-2 h-[300px]">
           <img src="~assets/img/team.png" class="rounded-xl"/>
         </div>
         <div class="w-2/3">
@@ -48,7 +48,7 @@ const links = [
         <div class="w-2/3">
           <LecturerCard text="Jako největší problém vnímáme nedostatek kantorů, a proto sne snažíme co nejvíce pomáhat začínajícím kantorům. Pořádáme měsíční přednášky od zkušených lektorů. Součástí přednášek jsou také kurzy pro studenty, se kterýma necháváme pracovat právě začínající kantory, aby mohli nastoupit i se zkušenostmi z praxe." from="Bc. Alexandra Dostálová, spoluzakladatelka TdA" />
         </div>
-        <div class="w-1/3 p-4 rounded-xl border-sky border-2">
+        <div class="w-1/3 p-4 rounded-xl border-sky border-2 h-[300px]">
           <img src="~assets/img/lecturer.png" class="rounded-xl" />
         </div>
       </div>

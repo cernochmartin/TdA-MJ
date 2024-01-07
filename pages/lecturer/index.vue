@@ -3,6 +3,13 @@ import type { Body } from '@/types/lecturer'
 
 const { data } = await useFetch<any>('/lecturers')
 const body = data.value.body as Body[]
+
+useSeoMeta({
+  title: 'Teacher digital Agency | Seznam lektorů',
+  ogTitle: 'Teacher digital Agency | Seznam lektorů',
+  description: 'Teacher digital Agency seznam lektorů.',
+  ogDescription: 'Teacher digital Agency seznam lektorů.'
+})
 </script>
 <template>
     <div class="container">
