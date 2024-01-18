@@ -19,10 +19,10 @@ const props = defineProps<{
         <NuxtLink :to="`/lecturer/${uuid}`">
             <article class="rounded-lg overflow-hidden shadow-2xl flex pt-4">
                 <img :src="`${props.pictureUrl}`" alt="Fotka lektora" class="p-4 w-[300px] h-[300px]" />
-                <div class="p-4 flex flex-col justify-between">
+                <div class="p-4 flex flex-col justify-between w-full">
                     <div class="flex flex-col gap-2">
                         <span class="font-semibold">{{ props.claim }}</span>
-                        <hr class="bg-prussian h-0.5">
+                        <hr class="bg-prussian h-0.5 w-full">
                         <p>{{ props.bio }}</p>
                     </div>
                     <span class="arrow-link text-prussian/70">Pro více informací navštivte lektorův profil</span>
