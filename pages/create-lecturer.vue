@@ -53,6 +53,7 @@ useSeoMeta({
     description: 'Teacher digital Agency založ účet lektora',
     ogDescription: 'Teacher digital Agency založ účet lektora.'
 })
+
 </script>
 <template>
     <section class="container">
