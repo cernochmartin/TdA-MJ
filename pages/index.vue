@@ -37,8 +37,8 @@ const links = [
     </div>
     <div class="pt-32 flex flex-col gap-8">
       <div class="flex gap-8">
-        <div class="w-1/3 p-4 rounded-xl border-sky border-2 h-[300px]">
-          <img src="~assets/img/team.png" class="rounded-xl"/>
+        <div class="w-1/3 p-4 rounded-xl border-sky border-2 h-[300px] overflow-hidden flex items-center justify-center">
+          <img src="~assets/img/team.png" class="rounded-xl object-cover h-[280px]"/>
         </div>
         <div class="w-2/3">
           <LecturerCard text="Náš tým se skládá z vášnivých lidí, kteří věří, že jednou z nejdůležitější věcí na světě je seberozvoj a kvalita, kterou dnešní školství dodává je nedostačující, a to především prostředkům, které jsou poskytována našim kantorům. Tudíž jsme vzali věc do vlastních rukou a snažíme se alespoň tuto část zlepšit. Věříme, že toto je pouze jedním z mnoha krůčkům ke zlepšení dnešního školství, a tudíž zlepšení každodenního života." from="Ing. Pavel Jech, spoluzakladatel TdA" />
@@ -48,8 +48,8 @@ const links = [
         <div class="w-2/3">
           <LecturerCard text="Jako největší problém vnímáme nedostatek kantorů, a proto sne snažíme co nejvíce pomáhat začínajícím kantorům. Pořádáme měsíční přednášky od zkušených lektorů. Součástí přednášek jsou také kurzy pro studenty, se kterýma necháváme pracovat právě začínající kantory, aby mohli nastoupit i se zkušenostmi z praxe." from="Bc. Alexandra Dostálová, spoluzakladatelka TdA" />
         </div>
-        <div class="w-1/3 p-4 rounded-xl border-sky border-2 h-[300px]">
-          <img src="~assets/img/lecturer.png" class="rounded-xl" />
+        <div class="w-1/3 p-4 rounded-xl border-sky border-2 h-[300px] overflow-hidden flex items-center justify-center">
+          <img src="~assets/img/lecturer.png" class="rounded-xl object-cover h-[280px]" />
         </div>
       </div>
     </div>

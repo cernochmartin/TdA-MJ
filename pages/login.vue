@@ -9,20 +9,28 @@ useSeoMeta({
 })
 
 const client = useSupabaseClient()
-const route = useRoute().query
 
 const credentials = reactive({
     email: '',
     password: ''
 })
 
+const type = ref(false) 
+const popup = ref(false)
+const loginError = ref()
+const signUpError = ref()
+const emailData = ref()
+
 async function login() {
-    await client.auth.signInWithPassword({
+    const { error } = await client.auth.signInWithPassword({
         email: credentials.email,
         password: credentials.password
     })
-    .then(() => { navigateTo('/') })
-    .catch((error: string) => { throw error })
+    if (error) {
+        popup.value = true
+        loginError.value = error.message
+    }
+    else navigateTo('/')
 }
 
 async function signUp() {
@@ -30,7 +38,14 @@ async function signUp() {
         email: credentials.email,
         password: credentials.password
     })
-    if (error) console.log(error)
+    if (error) {
+        popup.value = true
+        signUpError.value = error.message
+    }
+    else {
+        popup.value = true
+        emailData.value = credentials.email
+    }
 }
 </script>
 <template>
@@ -39,7 +54,7 @@ async function signUp() {
     </header>
     <div class="flex justify-center">
         <article class="pt-16 text-jet flex flex-col gap-6 border-sky border-1 rounded-xl w-[480px]">
-            <h2 v-if="route.type === 'register'">Registrace</h2>
+            <h2 v-if="type">Registrace</h2>
             <h2 v-else>Příhlášení</h2>
             <div class="flex flex-col gap-2">
                 <label for="text">Zadejte svůj e-mail: <span class="text-sky">*</span></label>
@@ -50,10 +65,26 @@ async function signUp() {
                 <input type="password" placeholder="Heslo*" v-model="credentials.password" />
             </div>
             <hr class="h-1 text-sky bg-sky">
-            <button v-if="route.type === 'register'" @click="signUp()">Zaregistrovat se</button>
-            <button v-else @click="login()">Přihlásit se</button>
-            <button v-if="route.type === 'register'" @click="$router.push({ query: {}})">Již mám založený účet</button>
-            <button v-else @click="$router.push({ query: { type: 'register' }})">Nemám založený účet</button>
+            <button v-if="type" @click="signUp()" :disabled="!credentials.email && !credentials.password">Zaregistrovat se</button>
+            <button v-else @click="login()" :disabled="!credentials.email && !credentials.password">Přihlásit se</button>
+            <button v-if="type" @click="type = !type">Již mám založený účet</button>
+            <button v-else @click="type = !type">Nemám založený účet</button>
         </article>
+    </div>
+    <div v-show="popup" class="background-overlay h-full">
+        <div class="flex items-center">
+            <article class="bg-white text-center mx-auto min-h-[240px] min-w-[480px] max-w-[840px] rounded-xl flex flex-col gap-6 p-6 opacity-90">
+                <div class="text-2xl w-full flex justify-end">
+                    <button @click="popup = !popup">&#10006;</button>
+                </div>
+                <div v-if="type">
+                    <h2 v-if="signUpError" class="text-error">{{ signUpError }}</h2>
+                    <h2 v-else class="text-success">Byl Vám zaslán e-mail s potvrzením registrace na adresu {{ emailData }}.</h2>
+                </div>
+                <div v-else>
+                    <h2 v-if="loginError" class="text-error">{{ loginError }}</h2>
+                </div>
+            </article>
+        </div>
     </div>
 </template>

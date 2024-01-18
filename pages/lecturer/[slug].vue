@@ -12,6 +12,19 @@ useSeoMeta({
   description: 'Teacher digital Agency profil lektora ' + `${uuid}.`,
   ogDescription: 'Teacher digital Agency profil lektora ' + `${uuid}.`,
 })
+
+const popup = ref(false)
+
+async function editLecturer() {
+
+}
+
+async function deleteLecturer() {
+    const { data } = await useFetch(`/lecturers/${uuid}`, {
+        method: 'DELETE'
+    })
+    popup.value = true
+}
 </script>
 <template>
     <section v-for="lecturer in body" :key="lecturer.lecturer_uuid" class="container pt-32">
@@ -53,5 +66,22 @@ useSeoMeta({
         <div class="grid grid-cols-[1fr,1fr,1fr,1fr] gap-2 pt-4">
             <!-- <Tag v-for="tag in props.tags" :text="tag.name" /> -->
         </div>
+        <div class="flex justify-end">
+            <div class="flex gap-6">
+                <button @click="editLecturer()" class="animation-up bg-sunglow w-[100px] py-2 rounded-md">Edit</button>
+                <button @click="deleteLecturer()" class="animation-up bg-error w-[100px] py-2 rounded-md text-white">Delete</button>
+            </div>
+        </div>
     </section>
+    <div v-show="popup" class="background-overlay h-full">
+        <div class="flex items-center">
+            <article class="bg-white text-center mx-auto min-h-[240px] min-w-[480px] max-w-[800px] rounded-xl flex flex-col gap-6 p-6 opacity-90">
+                <div class="text-2xl w-full flex justify-end">
+                    <NuxtLink to="/lecturer">&#10006;</NuxtLink>
+                </div>
+                <h2 class="text-success">Lektor {{ uuid }} byl vymazán.</h2>
+                <NuxtLink to="/lecturer" class="text-prussian/70 arrow-link">Zpět na seznam lektorů.</NuxtLink>
+            </article>
+        </div>
+    </div>
 </template>
