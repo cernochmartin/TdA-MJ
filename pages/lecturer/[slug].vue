@@ -25,6 +25,8 @@ async function deleteLecturer() {
     })
     popup.value = true
 }
+
+const editMode = ref(false)
 </script>
 <template>
     <section v-for="lecturer in body" :key="lecturer.lecturer_uuid" class="container pt-32">
@@ -33,7 +35,8 @@ async function deleteLecturer() {
         <hr class="h-0.5 bg-prussian">
         <div class="flex justify-between pt-16">
             <div class="w-1/3">
-                <img :src="lecturer.picture_url" alt="Fotografie lektora" class="h-[320px] w-[320px] rounded-xl"/>
+                <img v-if="lecturer.picture_url" :src="`${lecturer.picture_url}`" alt="Fotka lektora" class="h-[320px] w-[320px] rounded-xl" />
+                <img v-else src="@/assets/img/team.png" alt="Fotka lektora" class="h-[320px] w-[320px] rounded-xl" />
             </div>
             <div class="w-2/3 flex flex-col gap-6">
                 <p>
@@ -46,7 +49,8 @@ async function deleteLecturer() {
                     </div>
                     <div class="flex flex-col gap-1">
                         <span class="text-prussian/70">Plat za hodinu:</span>
-                        <span>{{ lecturer?.price_per_hour }} Kč</span>
+                    <span v-if="!editMode">{{ lecturer?.price_per_hour }} Kč</span>
+                    <input v-else type="text" :placeholder="lecturer?.price_per_hour.toString() + ` Kč`" />
                     </div>
                     <div class="flex flex-col gap-1">
                         <span class="text-prussian/70">E-mail:</span>
@@ -64,11 +68,13 @@ async function deleteLecturer() {
             </div>
         </div>
         <div class="grid grid-cols-[1fr,1fr,1fr,1fr] gap-2 pt-4">
-            <!-- <Tag v-for="tag in props.tags" :text="tag.name" /> -->
+            <span 
+                v-for="tag in lecturer.tags"
+                class="bg-sky px-1 py-2 flex text-center justify-center items-center shadow-xl rounded-md">{{ tag.name }}</span>
         </div>
         <div class="flex justify-end">
             <div class="flex gap-6">
-                <button @click="editLecturer()" class="animation-up bg-sunglow w-[100px] py-2 rounded-md">Edit</button>
+                <button @click="editMode = !editMode" class="animation-up bg-sunglow w-[100px] py-2 rounded-md">Edit</button>
                 <button @click="deleteLecturer()" class="animation-up bg-error w-[100px] py-2 rounded-md text-white">Delete</button>
             </div>
         </div>

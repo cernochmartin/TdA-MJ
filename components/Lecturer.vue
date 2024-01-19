@@ -18,7 +18,8 @@ const props = defineProps<{
         </div>
         <NuxtLink :to="`/lecturer/${uuid}`">
             <article class="rounded-lg overflow-hidden shadow-2xl flex pt-4">
-                <img :src="`${props.pictureUrl}`" alt="Fotka lektora" class="p-4 w-[300px] h-[300px]" />
+                <img v-if="props.pictureUrl" :src="`${props.pictureUrl}`" alt="Fotka lektora" class="p-4 w-[300px] h-[300px]" />
+                <img v-else src="@/assets/img/team.png" alt="Fotka lektora" class="p-4 w-[300px] h-[300px]" />
                 <div class="p-4 flex flex-col justify-between w-full">
                     <div class="flex flex-col gap-2">
                         <span class="font-semibold">{{ props.claim }}</span>
