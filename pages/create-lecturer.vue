@@ -2,7 +2,7 @@
 import { v4 as uuidv4 } from 'uuid'
 const myUuid = uuidv4()
 
-const teacherData = reactive({
+const teacherData = reactive<any>({
     title_before: '',
     first_name: '',
     middle_name: '',

@@ -35,29 +35,11 @@ export default defineEventHandler(async (event) => {
     }
         
     if (event.node.req.method === 'PUT') {
+        const body = await readBody(event)
+        console.log(body)
         const { data } = await client
             .from('lecturer_db')
-            .update({
-                title_before: 'Pejchy 2.0',
-                first_name: 'asdas',
-                middle_name: 'asda',
-                last_name: 'asda',
-                title_after: 'asdas',
-                picture_url: 'asda',
-                location: 'asdas',
-                bio: 'sada',
-                claim: 'claim',
-                price_per_hour: 222,
-                tags: [
-                    {
-                        name: 'asdasd'
-                    }
-                ],
-                contact: {
-                    telephone_numbers: ['sadas', 'sadasd'],
-                    emails: ['sadsa', 'sdada']
-                }
-            })
+            .update(body)
             .eq('lecturer_uuid', uuid)
         return {
             method: 'PUT',
