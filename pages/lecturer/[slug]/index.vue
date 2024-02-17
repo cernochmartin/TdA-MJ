@@ -150,6 +150,10 @@ const editMode = ref(false)
                     class="animation-up bg-sunglow w-[100px] py-2 rounded-md">Upravit</button>
                 <button @click="deleteLecturer()"
                     class="animation-up bg-error w-[100px] py-2 rounded-md text-white">Vymazat</button>
+                <NuxtLink :to="`/lecturer/${uuid}/calendar`"
+                    class="text-center text-white animation-up bg-prussian w-[200px] py-2 rounded-md">
+                    Naplánovat schůzku
+                </NuxtLink>
             </div>
         </div>
     </section>
@@ -159,9 +163,10 @@ const editMode = ref(false)
                 class="bg-white text-center mx-auto min-h-[240px] min-w-[480px] max-w-[800px] rounded-xl flex flex-col gap-6 p-6 opacity-90">
                 <div class="text-2xl w-full flex justify-end">
                     <NuxtLink to="/lecturer">&#10006;</NuxtLink>
-            </div>
-            <h2 class="text-success">Úprava momentálně není implementována.</h2>
-            <NuxtLink to="/lecturer" class="text-prussian/70 arrow-link">Zpět na seznam lektorů.</NuxtLink>
-        </article>
+                </div>
+                <h2 class="text-success">Úprava momentálně není implementována.</h2>
+                <NuxtLink to="/lecturer" class="text-prussian/70 arrow-link">Zpět na seznam lektorů.</NuxtLink>
+            </article>
+        </div>
     </div>
-</div></template>
+</template>

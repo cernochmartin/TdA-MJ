@@ -16,6 +16,7 @@ const date = ref<number | null>(null)
 const dateProps = defineProps<{
     selectedValues: SelectedValues
     selectedDate: number | null
+    sameAs: any
 }>()
 
 const dateEmit = defineEmits<{ (e: 'selected', v: number): void }>()
@@ -47,7 +48,7 @@ function generateDatesForThatMonth(m = dayjs().month(), y = dayjs().year()) {
     dates.value = []
     let d = dayjs().month(m).year(y)
     const daysInMonth = d.daysInMonth()
-    for (let i = 1; i <= daysInMonth; i++) {
+    for (let i = 0; i <= daysInMonth; i++) {
         dates.value.push({
             date: i,
             day: d.date(i).day()
@@ -59,6 +60,14 @@ function selected(d: number) {
     date.value = d
     dateEmit('selected', d)
 }
+
+const myMonth = computed(()=>{
+    const days: number[] = []
+    dateProps.sameAs.forEach((item: any) => {
+        if (+item.month === dateProps.selectedValues.month && +item.year === dateProps.selectedValues.year) days.push(+item.day)
+    })
+    return days
+})
 </script>
 <template>
     <div class="w-full border-2 border-prussian p-3 rounded-b-md">
@@ -68,14 +77,14 @@ function selected(d: number) {
             </div>
             <template v-for="(d, index) in dates" :key="d">
                 <template v-if="index == 0">
-                    <div v-for="i in d.day" :key="i">
-                    </div>
+                    <div v-for="i in d.day" :key="i" />
                 </template>
-                <button class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold"
+                <button v-else class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold"
                     @click="() => selected(d.date)" :class="{
                         'bg-sky text-white': (d.date == dayjs().date() && dateProps.selectedValues.month == dayjs().month()
                             && dateProps.selectedValues.year == dayjs().year()),
-                        'ring ring-sky': d.date == date
+                        'ring ring-prussian': d.date == date,
+                        'bg-prussian text-white': myMonth.includes(index)
                     }">
                     <span>
                         {{ d.date }}

@@ -24,13 +24,21 @@ export interface Body {
   contact: Contact
   tags: Tag[]
 }
-  
-  interface Tag {
-    uuid: string
-    name: string
-  }
-  
-  interface Contact {
-    telephone_numbers: string[]
-    emails: string[]
-  }
+
+interface Tag {
+  uuid: string
+  name: string
+}
+
+interface Contact {
+  telephone_numbers: string[]
+  emails: string[]
+}
+
+export interface Calendar {
+  year: number
+  month: number
+  day: number
+  hour: number
+  lecturer_uuid: string
+}
