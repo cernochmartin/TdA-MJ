@@ -53,7 +53,7 @@ input:focus, textarea:focus {
 }
   
 .arrow-link:hover {
-    right: -6px;
+    right: -4px;
     text-decoration: underline;
     text-underline-position: under;
 }
@@ -66,5 +66,5 @@ input:focus, textarea:focus {
     right: 0;
     display: flex;
     justify-content: center;
-    background-color: #000000da;
+    background-color: #131313da;
 }

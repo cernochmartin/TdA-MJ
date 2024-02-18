@@ -13,7 +13,7 @@ const props = defineProps<{
 </script>
 <template>
     <article class="animation-up">
-        <div class="pt-24">
+        <div class="mt-24">
             <h1>{{ props.titleBefore }} {{ props.firstName }} {{ props.middleName }} {{ props.lastName }} {{ props.titleAfter }}</h1>
         </div>
         <NuxtLink :to="`/lecturer/${uuid}`">
