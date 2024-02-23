@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
         
     if (event.node.req.method === 'PUT') {
         const body = await readBody(event)
-        console.log(body)
+        
         const { data } = await client
             .from('lecturer_db')
             .update(body)

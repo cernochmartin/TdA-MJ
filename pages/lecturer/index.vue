@@ -36,7 +36,7 @@ function result(tag: string) {
 // })
 
 // console.log('222',filteredLecturers.value)
-console.log()
+// console.log()
 </script>
 <template>
     <div v-for="tag in tags">
