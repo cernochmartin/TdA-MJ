@@ -10,18 +10,12 @@ const props = defineProps<{
     accepted: boolean | null
 }>()
 
-async function acceptMeeting() {
-    const { data, error } = await supabase
-        .from('calendar_db')
-        .update({ accepted: true })
-        .eq('calendar_uuid', props.uuid)
-    location.reload()
-}
+const month = Number(props.month) + 1
 
-async function declineMeeting() {
+async function changeMeetingValue(value: boolean) {
     const { data, error } = await supabase
         .from('calendar_db')
-        .update({ accepted: false })
+        .update({ accepted: value })
         .eq('calendar_uuid', props.uuid)
     location.reload()
 }
@@ -38,32 +32,37 @@ async function deleteMeeting() {
     <article :class="{
         'border-success border-2': accepted,
         'border-error border-2': accepted === false,
-        'border-sky border-2': accepted === null
+        'border-prussian border-2': accepted === null
     }" class="rounded-lg overflow-hidden shadow-2xl flex justify-between p-4 mt-24">
         <div class="">
             <h2>Schůze {{ props.uuid }}</h2>
-            <p class="pt-2">Máte schůzi od {{ props.hour }} dne {{ props.day }}. {{ props.month }}. {{ props.year }}.</p>
+            <p class="pt-2">Máte schůzi od {{ props.hour }} dne {{ props.day }}. {{ month }}. {{ props.year }}.</p>
         </div>
         <div v-if="accepted === null" class="flex flex-col justify-between w-[200px]">
-            <div @click="acceptMeeting()" class="arrow-link cursor-pointer flex justify-between w-full">
+            <div @click="changeMeetingValue(true)" class="arrow-link cursor-pointer flex justify-between w-full">
                 <span>Přijmout schůzi</span>
                 <div><i class="fa-solid fa-check fa-2xl text-success" /></div>
             </div>
-            <div @click="declineMeeting()" class="arrow-link cursor-pointer flex justify-between w-full">
+            <div @click="changeMeetingValue(false)" class="arrow-link cursor-pointer flex justify-between w-full">
                 <span>Odmítnout schůzi</span>
                 <div><i class="fa-solid fa-xmark fa-2xl text-error" /></div>
             </div>
         </div>
         <div v-else-if="accepted === false" class="flex flex-col justify-between w-[200px]">
-            <div class="flex justify-between w-full">
-                <span>Schůze odmítnuta</span><div><i class="fa-solid fa-xmark fa-2xl text-error" /></div>
+            <div @click="changeMeetingValue(true)" class="arrow-link cursor-pointer flex justify-between w-full">
+                <span>Přijmout schůzi</span>
+                <div><i class="fa-solid fa-check fa-2xl text-success" /></div>
             </div>
-            <div class="flex justify-between w-full">
-                <span @click="deleteMeeting()" class="arrow-link cursor-pointer">Smazat schůzi</span>
+            <div @click="deleteMeeting()" class="arrow-link cursor-pointer flex justify-between w-full">
+                <span>Smazat schůzi</span>
+                <div><i class="fa-regular fa-trash-can fa-2xl text-error" /></div>
             </div>
         </div>
-        <div v-else class="flex items-center justify-betweenw-[200px]">
-            <span>Schůzka potvrzena</span><div><i class="fa-solid fa-check fa-2xl text-success" /></div>
+        <div v-else class="flex items-center w-[200px]">
+            <div @click="changeMeetingValue(false)" class="arrow-link cursor-pointer flex justify-between w-full">
+                <span>Odmítnout schůzi</span>
+                <div><i class="fa-solid fa-xmark fa-2xl text-error" /></div>
+            </div>
         </div>
     </article>
 </template>
