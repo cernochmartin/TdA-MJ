@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const supabase = useSupabaseClient()
+import { client } from '~/utils/supabase'
 
 const props = defineProps<{
     year: string
@@ -13,7 +13,7 @@ const props = defineProps<{
 const month = Number(props.month) + 1
 
 async function changeMeetingValue(value: boolean) {
-    const { data, error } = await supabase
+    const { data, error } = await client
         .from('calendar_db')
         .update({ accepted: value })
         .eq('calendar_uuid', props.uuid)
@@ -21,7 +21,7 @@ async function changeMeetingValue(value: boolean) {
 }
 
 async function deleteMeeting() {
-    const { data, error } = await supabase
+    const { data, error } = await client
         .from('calendar_db')
         .delete()
         .eq('calendar_uuid', props.uuid)

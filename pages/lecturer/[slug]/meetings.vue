@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Body } from '@/types/lecturer'
-const supabase = useSupabaseClient()
+import { client } from '~/utils/supabase'
 
 const uuid = useRoute().path.split('/')[2]
 
@@ -8,7 +8,7 @@ const uuid = useRoute().path.split('/')[2]
 const { data } = await useFetch<any>(`/lecturers/${uuid}`)
 const body = data.value.body as Body[]
 
-const { data: lecturer_data } = await supabase
+const { data: lecturer_data } = await client
     .from('calendar_db')
     .select()
     .eq('lecturer_uuid', uuid)

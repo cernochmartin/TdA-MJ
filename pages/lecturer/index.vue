@@ -23,27 +23,34 @@ body.forEach((item: any) => {
 
 tags = [...new Set(tags)]
 
-const checked = ref(false)
-const resultFiltered = ref()
-const resultLecturers = ref(tags)
+const selectedTags = ref([])
 
-function result(tag: string) {
-    resultLecturers.value = tag === '' ? body : body.filter((item: any) => item.tag === tag)
-}
+const filteredLecturers = computed(() => {
+    if (selectedTags.value.length === 0)
+        return body
 
-// const filteredLecturers = computed(() => {
-//     resultFiltered.value = !checked.value ? resultLecturers.value : resultLecturers.value.filter((item: any) => item.tags.includes('Tělocvik'))
-// })
+    const myResult: string[] = []
+    body.forEach((item: any) => {
+        const includedTags: string[] = []
+        item.tags?.forEach(tag => includedTags.push(tag.name))
+        if (includedTags.length === 0)
+            return
 
-// console.log('222',filteredLecturers.value)
-// console.log()
+        const equalTags = selectedTags.value.filter((tag: any) => includedTags.includes(tag))
+        if (equalTags.length !== 0)
+            myResult.push(item)
+    })
+    return myResult
+})
 </script>
 <template>
-    <div v-for="tag in tags">
-        <span @click="result(tag)">{{ tag }}</span>
-    </div>
-    <div class="container full-page mb-24">
-        <Lecturer v-for="lecturer in body" :uuid="lecturer.lecturer_uuid" :title-before="lecturer.title_before"
+    <div class="container full-page my-24">
+        <div class="grid grid-cols-2">
+            <div v-for="tag in tags">
+                <span><input type="checkbox" :name="tag" :value="tag" v-model="selectedTags" class="cursor-pointer" /> {{ tag }}</span>
+            </div>
+        </div>
+        <Lecturer v-for="lecturer in filteredLecturers" :uuid="lecturer.lecturer_uuid" :title-before="lecturer.title_before"
             :first-name="lecturer.first_name" :middle-name="lecturer.middle_name" :last-name="lecturer.last_name"
             :title-after="lecturer.title_after" :picture-url="lecturer.picture_url" :claim="lecturer.claim"
             :bio="lecturer.bio" />

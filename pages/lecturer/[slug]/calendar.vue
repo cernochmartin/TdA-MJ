@@ -1,5 +1,13 @@
 <script setup lang="ts">
 import type { Body } from '@/types/lecturer'
+
+useSeoMeta({
+    title: 'Teacher digital Agency | Plánování schůzí s lektorem',
+    ogTitle: 'Teacher digital Agency | Plánování schůzí s lektorem',
+    description: 'Teacher digital Agency plánování schůzí s lektorem.',
+    ogDescription: 'Teacher digital Agency plánování schůzí s lektorem.'
+})
+
 const uuid = useRoute().path.split('/')[2]
 
 const { data } = await useFetch<any>(`/lecturers/${uuid}`)
