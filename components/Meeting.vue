@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { client } from '~/utils/supabase'
+const client = useSupabaseClient()
 
 const props = defineProps<{
     year: string
@@ -33,8 +33,8 @@ async function deleteMeeting() {
         'border-success border-2': accepted,
         'border-error border-2': accepted === false,
         'border-prussian border-2': accepted === null
-    }" class="rounded-lg overflow-hidden shadow-2xl flex justify-between p-4 mt-24">
-        <div class="">
+    }" class="rounded-lg overflow-hidden shadow-2xl flex justify-between p-4 my-24">
+        <div>
             <h2>Schůze {{ props.uuid }}</h2>
             <p class="pt-2">Máte schůzi od {{ props.hour }} dne {{ props.day }}. {{ month }}. {{ props.year }}.</p>
         </div>

@@ -145,7 +145,7 @@ const { data } = await client
             </div>
         </section>
         <div v-if="selectedDateValue" class="flex flex-col gap-1 items-center">
-            <p>Schůzka se bude konat</p>
+            <p>Schůze se bude konat</p>
             <p class="font-semibold">{{ `${selectedDateValue} - ${selectedValues.month + 1} - ${selectedValues.year}` }}
                 <span v-if="meetingHours.start && meetingHours.end">- {{ `${selectedHour}` }}</span>
             </p>
@@ -153,7 +153,7 @@ const { data } = await client
         <div class="flex gap-6 mt-6">
             <button @click="scheduleMeeting()"
                 class="text-center text-white animation-up bg-prussian w-[200px] py-2 rounded-md">Naplánovat
-                schůzku</button>
+                schůzi</button>
             <NuxtLink :to="`/lecturer/${uuid}`"
                 class="text-center text-white animation-up bg-error w-[200px] py-2 rounded-md">Zpět na profil lektora
             </NuxtLink>

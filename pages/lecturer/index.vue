@@ -32,7 +32,7 @@ const filteredLecturers = computed(() => {
     const myResult: string[] = []
     body.forEach((item: any) => {
         const includedTags: string[] = []
-        item.tags?.forEach(tag => includedTags.push(tag.name))
+        item.tags?.forEach((tag: any) => includedTags.push(tag.name))
         if (includedTags.length === 0)
             return
 

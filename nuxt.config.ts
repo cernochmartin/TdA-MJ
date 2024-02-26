@@ -14,16 +14,6 @@ export default defineNuxtConfig({
       supabaseUrl: process.env.SUPABASE_URL,
     }
   },
-  // basicAuth: {
-  //   enabled: true,
-  //   users: [
-  //     {
-  //       username: 'TdA',
-  //       password: 'd8Ef6!dGG_pv',
-  //     },
-  //   ],
-  //   allowedRoutes: ['/lecturers/.*'],
-  // },
   app: {
     head: {
       charset: 'utf-8',

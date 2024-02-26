@@ -152,7 +152,7 @@ const editMode = ref(false)
                     class="animation-up bg-error w-[100px] py-2 rounded-md text-white">Vymazat</button>
                 <NuxtLink :to="`/lecturer/${uuid}/calendar`"
                     class="text-center text-white animation-up bg-prussian w-[200px] py-2 rounded-md">
-                    Naplánovat schůzku
+                    Naplánovat schůzi
                 </NuxtLink>
             </div>
         </div>

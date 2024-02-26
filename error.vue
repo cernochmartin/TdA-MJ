@@ -20,7 +20,7 @@ useSeoMeta({
         <article class="shadow-2xl rounded-xl text-center mt-24 p-8 flex flex-col gap-2 px-8">
             <h2>Ooops...</h2>
             <h3>Error {{ error?.statusCode }}</h3>
-            <h3>Tady žádného lektora nenajdete.</h3>
+            <h3 v-if="error?.statusCode === 404">Tady žádného lektora nenajdete...</h3>
             <div class="flex flex-col gap-4">
             <p>{{ error?.message }}</p>
             <div class="flex justify-center">

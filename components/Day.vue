@@ -73,7 +73,7 @@ const myMonth = computed(()=>{
     <div class="w-full border-2 border-prussian p-3 rounded-b-md">
         <div class="grid grid-cols-7 place-items-center gap-x-2 gap-y-4">
             <div v-for="day in days" :key="day">
-                <span class="text-gray-500 font-semibold">{{ day.substring(0, 2) }}</span>
+                <span class="font-semibold">{{ day.substring(0, 2) }}</span>
             </div>
             <template v-for="(d, index) in dates" :key="d">
                 <template v-if="index == 0">
