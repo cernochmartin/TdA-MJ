@@ -47,6 +47,10 @@ const filteredMeeting = computed(() => {
 
     return meetings
 })
+
+const count = computed(() => {
+    return filteredMeeting.value.length
+})
 </script>
 <template>
     <main class="container pt-24">
@@ -55,7 +59,17 @@ const filteredMeeting = computed(() => {
         <p class="text-center pb-12">Přehled přijmutých, odmítnutých a nerozřazených schůzí lektora</p>
         <Year @selected="changeYear" />
         <Month @selected="changeMonth" />
-        <Day :same-as="lecturer_data" :selectedValues="selectedValues" :selectedDate="selectedDateValue" @selected="changeDate" />
+        <Day :same-as="lecturer_data" :selectedValues="selectedValues" :selectedDate="selectedDateValue"
+            @selected="changeDate" />
+        <div class="text-center mt-6">
+            <span>
+                Zobrazujete si den {{ selectedDateValue }}. {{ selectedValues.month + 1 }}. {{ selectedValues.year }},
+                ve kterém máte {{ count }}
+                <span v-if="count === 1">schůzi</span>
+                <span v-else-if="count > 1 && count < 5">schůze</span>
+                <span v-else="count === 0">schůzí</span>.
+            </span>
+        </div>
         <Meeting v-for="time in filteredMeeting" :lecturer-uuid="uuid" :year="time.year" :month="time.month" :day="time.day"
             :hour="time.hour" :uuid="time.calendar_uuid" :accepted="time.accepted" />
     </main>
