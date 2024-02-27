@@ -50,8 +50,6 @@ const filteredMeeting = computed(() => {
 </script>
 <template>
     <main class="container pt-24">
-        {{ selectedDateValue }}
-        {{ selectedValues }}
         <h2 v-for="lecturer in body" class="text-center">{{ lecturer.title_before }} {{ lecturer.first_name }} {{
             lecturer.middle_name }} {{ lecturer.last_name }} {{ lecturer.title_after }}</h2>
         <p class="text-center pb-12">Přehled přijmutých, odmítnutých a nerozřazených schůzí lektora</p>

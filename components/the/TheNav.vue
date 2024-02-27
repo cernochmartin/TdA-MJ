@@ -21,7 +21,7 @@ const currentUser = await client.auth.getSession()
         <div class="w-1/3 flex gap-8 justify-center">
             <NuxtLink to="/">Domů</NuxtLink>
             <NuxtLink to="/lecturer">Lektoři</NuxtLink>
-            <!-- <NuxtLink to="/create-lecturer">Založ si účet lektora</NuxtLink> -->
+            <NuxtLink to="/lecturer/7e2e76d2-e108-4e7a-b2b0-5a3c8377fd5a/meetings">Plánované schůze</NuxtLink>
         </div>
         <div class="w-1/3 flex gap-8 justify-end">
             <button @click="logout()">Odhlásit se</button>

@@ -61,7 +61,7 @@ function selected(d: number) {
     dateEmit('selected', d)
 }
 
-const myMonth = computed(()=>{
+const myMonth = computed(() => {
     const days: number[] = []
     dateProps.sameAs.forEach((item: any) => {
         if (+item.month === dateProps.selectedValues.month && +item.year === dateProps.selectedValues.year) days.push(+item.day)
@@ -81,11 +81,11 @@ const myMonth = computed(()=>{
                 </template>
                 <button v-else class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold"
                     @click="() => selected(d.date)" :class="{
-                        'bg-sky text-white': (d.date == dayjs().date() && dateProps.selectedValues.month == dayjs().month()
-                            && dateProps.selectedValues.year == dayjs().year()),
-                        'ring ring-prussian': d.date == date,
-                        'bg-prussian text-white': myMonth.includes(index)
-                    }">
+                        'ring ring-prussian': d.date === date,
+                        'bg-prussian text-white': myMonth.includes(index),
+                        'ring ring-sky': (d.date === dayjs().date() && dateProps.selectedValues.month === dayjs().month()
+                            && dateProps.selectedValues.year === dayjs().year())
+                    }" :disabled="d.date < dayjs().date()">
                     <span>
                         {{ d.date }}
                     </span>
