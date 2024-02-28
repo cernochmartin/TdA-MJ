@@ -41,6 +41,25 @@ const meetingHours = reactive<{
     end: ''
 })
 
+const studentInfo = <{
+    first_name: string
+    last_name: string
+    email: string
+    phone: string
+}>({
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: ''
+})
+
+// const phoneNumber = computed(() => {
+//     return studentInfo.phone.replace(/\s/g, '')
+//     return studentInfo.phone.replace(' ', '')
+// })
+
+// const phoneNumber = studentInfo.phone.replace(' ', '')
+
 const selectedHour = computed(() => {
     return `${meetingHours.start} - ${meetingHours.end}`
 })
@@ -111,7 +130,11 @@ async function scheduleMeeting() {
                 month: selectedValues.month,
                 day: selectedDateValue.value,
                 hour: selectedHour.value,
-                lecturer_uuid: props.uuid
+                lecturer_uuid: props.uuid,
+                first_name: studentInfo.first_name,
+                last_name: studentInfo.last_name,
+                email: studentInfo.email,
+                phone: studentInfo.phone
             }])
         popup.value = {
             value: true,
@@ -130,6 +153,7 @@ const { data } = await client
         <Year @selected="changeYear" />
         <Month @selected="changeMonth" />
         <Day :same-as="data" :selectedValues="selectedValues" :selectedDate="selectedDateValue" @selected="changeDate" />
+        <h3 class="text-center mt-6">Informace ke schůzi</h3>
         <section class="flex flex-col gap-2 w-[200px] my-6">
             <div class="flex justify-between">
                 <label>Začátek schůze</label>
@@ -150,6 +174,25 @@ const { data } = await client
                 <span v-if="meetingHours.start && meetingHours.end">- {{ `${selectedHour}` }}</span>
             </p>
         </div>
+        <h3 class="text-center my-6">Kontaktní informace studenta</h3>
+        <div class="grid grid-cols-2 w-[400px]">
+            <div>
+                <label>Jméno</label>
+                <input v-model="studentInfo.first_name" type="text" placeholder="Jméno" />
+            </div>
+            <div>
+                <label>Příjmení</label>
+                <input v-model="studentInfo.last_name" type="text" placeholder="Příjmení" />
+            </div>
+            <div>
+                <label>E-mail</label>
+                <input v-model="studentInfo.email" type="email" placeholder="E-mail" />
+            </div>
+            <div>
+                <label>Telefon (bez předvolby)</label>
+                <input v-model="studentInfo.phone" type="tel" placeholder="Telefon" />
+            </div>
+        </div>
         <div class="flex gap-6 mt-6">
             <button @click="scheduleMeeting()"
                 class="text-center text-white animation-up bg-prussian w-[200px] py-2 rounded-md">Naplánovat
@@ -159,6 +202,8 @@ const { data } = await client
             </NuxtLink>
         </div>
     </div>
+
+    <!-- Popup -->
     <div v-show="popup.value" class="background-overlay h-full">
         <div class="flex items-center">
             <article

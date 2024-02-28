@@ -32,7 +32,7 @@ async function createTeacher() {
 
     if(teacherData.tag){
         const tags = teacherData.tag.replace(/\s/g, '').split(',')
-        tags.forEach(tag => {
+        tags.forEach((tag: any) => {
             teacherData.tags.push({
                 name: tag,
                 uuid: myUuid

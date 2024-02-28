@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { client } from '~/utils/supabase'
+
 definePageMeta({
     layout: 'auth'
 })
@@ -7,8 +9,6 @@ useSeoMeta({
     title: 'Teacher digital Agency - Autentizace',
     ogTitle: 'Teacher digital Agency - Autentizace'
 })
-
-const client = useSupabaseClient()
 
 const credentials = reactive({
     email: '',

@@ -71,6 +71,7 @@ const count = computed(() => {
             </span>
         </div>
         <Meeting v-for="time in filteredMeeting" :lecturer-uuid="uuid" :year="time.year" :month="time.month" :day="time.day"
-            :hour="time.hour" :uuid="time.calendar_uuid" :accepted="time.accepted" />
+            :hour="time.hour" :uuid="time.calendar_uuid" :accepted="time.accepted" :first-name="time.first_name"
+            :last_name="time.last_name" :email="time.email" :phone="time.phone" />
     </main>
 </template>

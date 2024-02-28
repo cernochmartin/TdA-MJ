@@ -1,4 +1,13 @@
 <script setup lang="ts">
+import { createEvents, EventAttributes } from 'ics';
+
+interface Meeting {
+    year: string;
+    month: string;
+    day: string;
+    hour: string;
+}
+
 const client = useSupabaseClient()
 
 const props = defineProps<{
@@ -8,6 +17,10 @@ const props = defineProps<{
     hour: string
     uuid: string
     accepted: boolean | null
+    firstName: string
+    lastName: string
+    email: string
+    phone: string
 }>()
 
 const month = Number(props.month) + 1
@@ -27,6 +40,41 @@ async function deleteMeeting() {
         .eq('calendar_uuid', props.uuid)
     location.reload()
 }
+
+async function exportToIcs() {
+    const { data, error } = await client
+        .from('calendar_db')
+        .select('*')
+        .eq('calendar_uuid', props.uuid)
+
+    if (error) {
+        console.error('Error fetching meetings:', error);
+        return;
+    }
+
+    const events: EventAttributes[] = data.map((meeting: Meeting) => ({
+        start: [Number(meeting.year), Number(meeting.month), Number(meeting.day), Number(meeting.hour)],
+        duration: { hours: 1 }, // Adjust this based on your meeting duration
+        title: 'Meeting', // Adjust this based on your meeting title
+        description: 'Meeting', // Adjust this based on your meeting description
+        location: 'Location', // Adjust this based on your meeting location
+    }));
+
+    const { error: icsError, value } = createEvents(events);
+
+    if (icsError) {
+        console.error('Error creating .ics file:', icsError);
+        return;
+    }
+
+    const blob = new Blob([value], { type: 'text/calendar;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.setAttribute('download', 'meetings.ics');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 </script>
 <template>
     <article :class="{
@@ -37,6 +85,8 @@ async function deleteMeeting() {
         <div>
             <h2>Schůze {{ props.uuid }}</h2>
             <p class="pt-2">Máte schůzi od {{ props.hour }} dne {{ props.day }}. {{ month }}. {{ props.year }}.</p>
+            <p>Ozvěte se studentovi {{ props.firstName }} {{ props.lastName }} na e-mail: <NuxtLink :to="props.email"
+                    target="_blank"> {{ props.email }}</NuxtLink> nebo {{ props.phone }}.</p>
         </div>
         <div v-if="accepted === null" class="flex flex-col justify-between w-[200px]">
             <div @click="changeMeetingValue(true)" class="arrow-link cursor-pointer flex justify-between w-full">
@@ -65,4 +115,6 @@ async function deleteMeeting() {
             </div>
         </div>
     </article>
+    {{ props.uuid }}
+    <button @click="exportToIcs()" class="text-prussian">export to ics</button>
 </template>

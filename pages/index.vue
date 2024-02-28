@@ -1,6 +1,4 @@
 <script setup lang="ts">
-const client = useSupabaseClient()
-
 definePageMeta({
   layout: false
 })
@@ -15,12 +13,10 @@ const links = [
     link: '/lecturer'
   }
 ]
-
-const currentUser = await client.auth.getSession()
 </script>
 <template>
   <div class="teacher-background">
-    <TheNav :uuid="currentUser.data.session?.user?.id" />
+    <TheNav />
     <section class="container">
       <header class="pt-32 text-white w-[480px]">
         <h1>Vítejte na portále Teacher digital Agency</h1>
