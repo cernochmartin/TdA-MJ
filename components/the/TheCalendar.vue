@@ -53,13 +53,6 @@ const studentInfo = <{
     phone: ''
 })
 
-// const phoneNumber = computed(() => {
-//     return studentInfo.phone.replace(/\s/g, '')
-//     return studentInfo.phone.replace(' ', '')
-// })
-
-// const phoneNumber = studentInfo.phone.replace(' ', '')
-
 const selectedHour = computed(() => {
     return `${meetingHours.start} - ${meetingHours.end}`
 })
@@ -134,7 +127,7 @@ async function scheduleMeeting() {
                 first_name: studentInfo.first_name,
                 last_name: studentInfo.last_name,
                 email: studentInfo.email,
-                phone: studentInfo.phone
+                phone: studentInfo.phone.replace(/\s/g, '')
             }])
         popup.value = {
             value: true,

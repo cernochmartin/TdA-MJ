@@ -75,6 +75,8 @@ async function exportToIcs() {
     link.click();
     document.body.removeChild(link);
 }
+
+const popup = ref<boolean>(false)
 </script>
 <template>
     <article :class="{
@@ -103,7 +105,7 @@ async function exportToIcs() {
                 <span>Přijmout schůzi</span>
                 <div><i class="fa-solid fa-check fa-2xl text-success" /></div>
             </div>
-            <div @click="deleteMeeting()" class="arrow-link cursor-pointer flex justify-between w-full">
+            <div @click="popup = !popup" class="arrow-link cursor-pointer flex justify-between w-full">
                 <span>Smazat schůzi</span>
                 <div><i class="fa-regular fa-trash-can fa-2xl text-error" /></div>
             </div>
@@ -117,4 +119,20 @@ async function exportToIcs() {
     </article>
     {{ props.uuid }}
     <button @click="exportToIcs()" class="text-prussian">export to ics</button>
+
+    <!-- Popup -->
+    <div v-show="popup" class="background-overlay h-full">
+        <div class="flex items-center">
+            <article
+                class="bg-white text-center mx-auto min-h-[240px] min-w-[480px] max-w-[840px] rounded-xl flex flex-col gap-6 p-6 opacity-90">
+                <div class="text-2xl w-full flex justify-end">
+                    <button @click="navigateTo(`/lecturer/${uuid}`)">&#10006;</button>
+                </div>
+                <div>
+                    <h2 class="text-error">Vážně chcete smazat schůzi?</h2>
+                    <button @click="deleteMeeting()" class="arrow-link">Ano, chci ji smazat.</button>
+                </div>
+            </article>
+        </div>
+    </div>
 </template>

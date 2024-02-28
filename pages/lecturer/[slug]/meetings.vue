@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
 import type { Body } from '@/types/lecturer'
+
+useSeoMeta({
+    title: 'Teacher digital Agency | Plánované schůze',
+    ogTitle: 'Teacher digital Agency | Plánované schůze',
+    description: 'Přehled přijmutých, odmítnutých a nerozřazených schůzí lektora.',
+    ogDescription: 'Přehled přijmutých, odmítnutých a nerozřazených schůzí lektora.' 
+})
+
 const client = useSupabaseClient()
 
 const uuid = useRoute().path.split('/')[2]
