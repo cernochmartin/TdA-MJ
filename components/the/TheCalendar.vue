@@ -108,7 +108,7 @@ const popup = ref<{
 })
 
 async function scheduleMeeting() {
-    if (meetingHours.start === '' || meetingHours.end === '') {
+    if (meetingHours.start === '' || meetingHours.end === '' || studentInfo.first_name === '' || studentInfo.last_name === '' || studentInfo.email === '' || studentInfo.phone === '') {
         popup.value = {
             value: true,
             type: 'error'
@@ -124,9 +124,9 @@ async function scheduleMeeting() {
                 day: selectedDateValue.value,
                 hour: selectedHour.value,
                 lecturer_uuid: props.uuid,
-                first_name: studentInfo.first_name,
-                last_name: studentInfo.last_name,
-                email: studentInfo.email,
+                first_name: studentInfo.first_name.replace(/\s/g, ''),
+                last_name: studentInfo.last_name.replace(/\s/g, ''),
+                email: studentInfo.email.replace(/\s/g, ''),
                 phone: studentInfo.phone.replace(/\s/g, '')
             }])
         popup.value = {
@@ -206,7 +206,7 @@ const { data } = await client
                         <button @click="popup.value = !popup.value">&#10006;</button>
                     </div>
                     <div>
-                        <h2 class="text-error">Vyplňte čas schůze.</h2>
+                        <h2 class="text-error">Vyplňte čas schůze, jméno, příjmení, e-mail a telefon.</h2>
                     </div>
                 </template>
                 <template v-if="popup.type === 'success'">

@@ -88,7 +88,7 @@ const popup = ref<boolean>(false)
             <h2>Schůze {{ props.uuid }}</h2>
             <p class="pt-2">Máte schůzi od {{ props.hour }} dne {{ props.day }}. {{ month }}. {{ props.year }}.</p>
             <p>Ozvěte se studentovi {{ props.firstName }} {{ props.lastName }} na e-mail: <NuxtLink :to="props.email"
-                    target="_blank"> {{ props.email }}</NuxtLink> nebo {{ props.phone }}.</p>
+                    target="_blank"> {{ props.email }}</NuxtLink> nebo na číslo {{ props.phone }}.</p>
         </div>
         <div v-if="accepted === null" class="flex flex-col justify-between w-[200px]">
             <div @click="changeMeetingValue(true)" class="arrow-link cursor-pointer flex justify-between w-full">

@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import type { Body } from '@/types/lecturer'
 import { v4 as uuidv4 } from 'uuid'
+const client = useSupabaseClient()
 const myUuid = uuidv4()
+
+const userId = ref()
+await client.auth.getSession().then((session) => {
+    userId.value = session.data.session?.user.id
+})
 
 const uuid = useRoute().path.split('/').pop()
 
@@ -15,7 +21,13 @@ useSeoMeta({
     ogDescription: 'Teacher digital Agency profil lektora ' + `${uuid}.`,
 })
 
-const popup = ref(false)
+const popup = ref<{
+    value: boolean
+    type: string
+}>({
+    value: false,
+    type: ''
+})
 
 const teacherData = reactive<any>({
     title_before: '',
@@ -45,7 +57,7 @@ async function editLecturer() {
 
     if (teacherData.tag) {
         const tags = teacherData.tag.replace(/\s/g, '').split(',')
-        tags.forEach(tag => {
+        tags.forEach((tag: any) => {
             teacherData.tags.push({
                 name: tag,
                 uuid: myUuid
@@ -71,10 +83,19 @@ async function editLecturer() {
 }
 
 async function deleteLecturer() {
-    const { data } = await useFetch(`/lecturers/${uuid}`, {
-        method: 'DELETE'
+    await client.from('lecturer_db')
+        .delete()
+        .eq('lecturer_uuid', uuid)
+    await client.auth.signOut().then(() => {
+        navigateTo('/login')
     })
-    popup.value = true
+}
+
+async function popupPop(value: string) {
+    popup.value = {
+        value: true,
+        type: value
+    }
 }
 
 const editMode = ref(false)
@@ -142,14 +163,16 @@ const editMode = ref(false)
         </div>
         <div class="flex justify-end">
             <div class="flex gap-6">
-                <button v-show="editMode" @click="editMode = !editMode"
-                    class="animation-up bg-error/70 w-[160px] py-2 rounded-md">Ukončit úpravu</button>
-                <button v-if="editMode" @click="popup = true"
-                    class="animation-up bg-success w-[160px] py-2 rounded-md">Uložit úpravu</button>
-                <button v-else @click="editMode = !editMode"
-                    class="animation-up bg-sunglow w-[100px] py-2 rounded-md">Upravit</button>
-                <button @click="deleteLecturer()"
-                    class="animation-up bg-error w-[100px] py-2 rounded-md text-white">Vymazat</button>
+                <template v-if="userId === uuid">
+                    <button v-show="editMode" @click="editMode = !editMode"
+                        class="animation-up bg-error/70 w-[160px] py-2 rounded-md">Ukončit úpravu</button>
+                    <button v-if="editMode" @click="popupPop('edit')"
+                        class="animation-up bg-success w-[160px] py-2 rounded-md">Uložit úpravu</button>
+                    <button v-else @click="editMode = !editMode"
+                        class="animation-up bg-sunglow w-[100px] py-2 rounded-md">Upravit</button>
+                    <button @click="popupPop('delete')"
+                        class="animation-up bg-error w-[100px] py-2 rounded-md text-white">Vymazat</button>
+                </template>
                 <NuxtLink :to="`/lecturer/${uuid}/calendar`"
                     class="text-center text-white animation-up bg-prussian w-[200px] py-2 rounded-md">
                     Naplánovat schůzi
@@ -157,16 +180,32 @@ const editMode = ref(false)
             </div>
         </div>
     </section>
-    <div v-show="popup" class="background-overlay h-full">
+
+    <!-- Popup -->
+    <div v-show="popup.value" class="background-overlay h-full">
         <div class="flex items-center">
-            <article
-                class="bg-white text-center mx-auto min-h-[240px] min-w-[480px] max-w-[800px] rounded-xl flex flex-col gap-6 p-6 opacity-90">
-                <div class="text-2xl w-full flex justify-end">
-                    <NuxtLink to="/lecturer">&#10006;</NuxtLink>
-                </div>
-                <h2 class="text-success">Úprava momentálně není implementována.</h2>
-                <NuxtLink to="/lecturer" class="text-prussian/70 arrow-link">Zpět na seznam lektorů.</NuxtLink>
-            </article>
+            <template v-if="popup.type === 'delete'">
+                <article
+                    class="bg-white text-center mx-auto min-h-[240px] min-w-[480px] max-w-[800px] rounded-xl flex flex-col gap-6 p-6 opacity-90">
+                    <div class="text-2xl w-full flex justify-end">
+                        <button @click="popup.value = !popup.value">&#10006;</button>
+                    </div>
+                    <div>
+                        <h2 class="text-error">Vážně chcete smazat svůj účet lektora?</h2>
+                        <button @click="deleteLecturer()" class="arrow-link">Ano, chci smazat účet lektora.</button>
+                    </div>
+                </article>
+            </template>
+            <template v-if="popup.type === 'edit'">
+                <article
+                    class="bg-white text-center mx-auto min-h-[240px] min-w-[480px] max-w-[800px] rounded-xl flex flex-col gap-6 p-6 opacity-90">
+                    <div class="text-2xl w-full flex justify-end">
+                        <NuxtLink to="/lecturer">&#10006;</NuxtLink>
+                    </div>
+                    <h2 class="text-success">Úprava momentálně není implementována.</h2>
+                    <NuxtLink to="/lecturer" class="text-prussian/70 arrow-link">Zpět na seznam lektorů.</NuxtLink>
+                </article>
+            </template>
         </div>
     </div>
 </template>

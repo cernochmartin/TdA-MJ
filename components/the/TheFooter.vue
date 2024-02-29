@@ -1,3 +1,6 @@
+<script setup lang="ts">
+const year = new Date().getFullYear()
+</script>
 <template>
     <footer class="bg-prussian flex flex-col font-semibold px-40">
         <section class="text-white py-4 flex justify-between">
@@ -17,6 +20,6 @@
         </section>
     </footer>
     <section class="px-40 py-2">
-        <span>&#169; 2023 - Teacher digital Agency, všechna práva vyhrazena, vytvořil: <NuxtLink to="/lecturer/34e96427-5d8d-41e3-ba84-6e535a3e5e68">Martin Černoch</NuxtLink></span>
+        <span>&#169; 2023 - {{ year }}, Teacher digital Agency, všechna práva vyhrazena, vytvořil: <NuxtLink to="/lecturer/34e96427-5d8d-41e3-ba84-6e535a3e5e68">Martin Černoch</NuxtLink></span>
     </section>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { client } from '~/utils/supabase'
+const client = useSupabaseClient()
 
 definePageMeta({
     layout: 'auth'
