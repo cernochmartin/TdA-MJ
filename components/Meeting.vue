@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createEvents, EventAttributes } from 'ics';
+import { createEvent } from 'ics'
 
 interface Meeting {
     year: string;
@@ -41,39 +41,32 @@ async function deleteMeeting() {
     location.reload()
 }
 
-async function exportToIcs() {
-    const { data, error } = await client
-        .from('calendar_db')
-        .select('*')
-        .eq('calendar_uuid', props.uuid)
+const splitHours = props.hour.split('-')
+const startHour = splitHours[0].split(':')[0]
+const endHour = splitHours[1].split(':')[0]
+const duration = (Number(endHour) - Number(startHour)) * 60
 
-    if (error) {
-        console.error('Error fetching meetings:', error);
-        return;
-    }
+function exportToIcs() {
+    createEvent({
+        title: 'Schůze ' + props.uuid,
+        description: 'Schůze se studentem ' + props.firstName + ' ' + props.lastName,
+        busyStatus: 'FREE',
+        start: [Number(props.year), Number(props.month) + 1, Number(props.day), Number(startHour), 0],
+        duration: { minutes: duration }
+    }, (error, value) => {
+        if (error) {
+            console.log(error)
+            return
+        }
 
-    const events: EventAttributes[] = data.map((meeting: Meeting) => ({
-        start: [Number(meeting.year), Number(meeting.month), Number(meeting.day), Number(meeting.hour)],
-        duration: { hours: 1 }, // Adjust this based on your meeting duration
-        title: 'Meeting', // Adjust this based on your meeting title
-        description: 'Meeting', // Adjust this based on your meeting description
-        location: 'Location', // Adjust this based on your meeting location
-    }));
-
-    const { error: icsError, value } = createEvents(events);
-
-    if (icsError) {
-        console.error('Error creating .ics file:', icsError);
-        return;
-    }
-
-    const blob = new Blob([value], { type: 'text/calendar;charset=utf-8;' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.setAttribute('download', 'meetings.ics');
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+        const blob = new Blob([value], { type: 'text/calendar;charset=utf-8;' })
+        const link = document.createElement('a')
+        link.href = URL.createObjectURL(blob)
+        link.setAttribute('download', 'event.ics')
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+    })
 }
 
 const popup = ref<boolean>(false)
@@ -83,7 +76,7 @@ const popup = ref<boolean>(false)
         'border-success border-2': accepted,
         'border-error border-2': accepted === false,
         'border-prussian border-2': accepted === null
-    }" class="rounded-lg overflow-hidden shadow-2xl flex justify-between p-4 my-24">
+    }" class="rounded-lg overflow-hidden shadow-2xl flex justify-between p-4 mt-24">
         <div>
             <h2>Schůze {{ props.uuid }}</h2>
             <p class="pt-2">Máte schůzi od {{ props.hour }} dne {{ props.day }}. {{ month }}. {{ props.year }}.</p>
@@ -117,8 +110,9 @@ const popup = ref<boolean>(false)
             </div>
         </div>
     </article>
-    {{ props.uuid }}
-    <button @click="exportToIcs()" class="text-prussian">export to ics</button>
+    <button @click="exportToIcs()"
+        class="animation-up bg-prussian text-white text-center w-full py-2 rounded-md mt-6">Export schůze do formátu
+        .ics</button>
 
     <!-- Popup -->
     <div v-show="popup" class="background-overlay h-full">
