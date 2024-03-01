@@ -85,7 +85,7 @@ const comparingDayjs = computed(() => {
                 <span class="font-semibold">{{ day.substring(0, 2) }}</span>
             </div>
             <template v-for="(d, index) in dates" :key="d">
-                <template v-if="index == 0">
+                <template v-if="index === 0">
                     <div v-for="i in d.day" :key="i" />
                 </template>
                 <button v-else class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold"
@@ -96,7 +96,7 @@ const comparingDayjs = computed(() => {
                         'ring ring-sky': (d.date === dayjs().date() && dateProps.selectedValues.month === dayjs().month()
                             && dateProps.selectedValues.year === dayjs().year())
                     }" 
-                    :disabled="$route.path === `/lecturer/${uuid}/calendar` && comparingProps < comparingDayjs || d.date < dayjs().date()">
+                    :disabled="$route.path === `/lecturer/${uuid}/calendar` && (comparingProps < comparingDayjs || d.date < dayjs().date())">
                     <span>
                         {{ d.date }}
                     </span>

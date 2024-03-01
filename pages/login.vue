@@ -21,6 +21,12 @@ const loginError = ref()
 const signUpError = ref()
 const emailData = ref()
 
+const query = useRoute().query
+
+function isEmpty() {
+    return Object.keys(query).length === 0
+}
+
 async function login() {
     const { error } = await client.auth.signInWithPassword({
         email: credentials.email,
@@ -30,7 +36,10 @@ async function login() {
         popup.value = true
         loginError.value = error.message
     }
-    else navigateTo('/')
+    if (query) {
+        navigateTo('/create-lecturer')
+    }
+    if (isEmpty()) navigateTo('/')
 }
 
 async function signUp() {
@@ -67,9 +76,11 @@ async function signUp() {
             <hr class="h-1 text-sky bg-sky">
             <button v-if="type" @click="signUp()" :disabled="!credentials.email && !credentials.password">Zaregistrovat
                 se</button>
-            <button v-else @click="login()" :disabled="!credentials.email && !credentials.password">Přihlásit se</button>
+            <button v-else @click="login()" :disabled="!credentials.email && !credentials.password">Přihlásit
+                se</button>
             <button v-if="type" @click="type = !type">Již mám založený účet</button>
             <button v-else @click="type = !type">Nemám založený účet</button>
+            <NuxtLink to="/" class="text-center">Chci pokračovat bez účtu</NuxtLink>
         </article>
     </div>
 
@@ -83,8 +94,11 @@ async function signUp() {
                 </div>
                 <div v-if="type">
                     <h2 v-if="signUpError" class="text-error">{{ signUpError }}</h2>
-                    <h2 v-else class="text-success">Byl Vám zaslán e-mail s potvrzením registrace na adresu {{ emailData }}.
-                    </h2>
+                    <template v-else>
+                        <h2 class="text-success">Byl Vám zaslán e-mail s potvrzením registrace na adresu {{ emailData }}.
+                        </h2>
+                        <p>Po potvrzení se přihlašte a pokud jste lektor, tak si vytvořte profil lektora.</p>
+                    </template>
                 </div>
                 <div v-else>
                     <h2 v-if="loginError" class="text-error">{{ loginError }}</h2>
