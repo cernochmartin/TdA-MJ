@@ -21,6 +21,10 @@ const id: string[] = []
 data?.forEach((item: any) => {
     id.push(item.lecturer_uuid)
 })
+
+function login() {
+    navigateTo('/login')
+}
 </script>
 <template>
     <nav class="flex text-white justify-between h-16 text-xl font-semibold items-center px-40"
@@ -33,11 +37,14 @@ data?.forEach((item: any) => {
         <div class="w-1/3 flex gap-8 justify-center">
             <NuxtLink to="/">Domů</NuxtLink>
             <NuxtLink to="/lecturer">Lektoři</NuxtLink>
-            <NuxtLink v-if="userId === id[0]" :to='`/lecturer/${userId}/meetings`'>Plánované schůze</NuxtLink>
-            <NuxtLink v-else to="/create-lecturer">Jste lektor? Vytvořte si účet</NuxtLink>
+            <template v-if="userId">
+                <NuxtLink v-if="userId === id[0]" :to="`/lecturer/${userId}/meetings`">Plánované schůze</NuxtLink>
+                <NuxtLink v-if="userId" to="/create-lecturer">Jste lektor? Vytvořte si účet</NuxtLink>
+            </template>
         </div>
         <div class="w-1/3 flex gap-8 justify-end">
-            <button @click="logout()">Odhlásit se</button>
+            <button v-if="userId" @click="logout()">Odhlásit se</button>
+            <button v-else @click="login()">Přihlásit/zaregistrovat se</button>
         </div>
     </nav>
 </template>

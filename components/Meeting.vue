@@ -30,6 +30,7 @@ async function changeMeetingValue(value: boolean) {
         .from('calendar_db')
         .update({ accepted: value })
         .eq('calendar_uuid', props.uuid)
+    location.reload()
 }
 
 async function deleteMeeting() {
@@ -37,6 +38,7 @@ async function deleteMeeting() {
         .from('calendar_db')
         .delete()
         .eq('calendar_uuid', props.uuid)
+    location.reload()
 }
 
 const splitHours = props.hour.split('-')
