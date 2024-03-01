@@ -169,15 +169,15 @@ useSeoMeta({
 })
 </script>
 <template>
-    <template v-if="id[0] === userId">
+    <!-- <template v-if="id[0] === userId">
         <main class="container pt-24 flex justify-center">
             <div>
                 <h2 class="text-center text-error">Již máte vytvořený profil lektora.</h2>
                 <NuxtLink to="/lecturer" class="arrow-link flex justify-center">Zpět na seznam lektorů.</NuxtLink>
             </div>
         </main>
-    </template>
-    <template e-else>
+    </template> -->
+    <!-- <template> -->
         <section class="container">
             <h2 class="pt-32">Vytvoření profilu lektora</h2>
             <div class="pt-16 flex flex-col gap-6">
@@ -255,7 +255,7 @@ useSeoMeta({
                 </div>
             </div>
         </section>
-    </template>
+    <!-- </template> -->
 
     <!-- Popup -->
     <div v-show="popup.value" class="background-overlay h-full">
