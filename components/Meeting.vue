@@ -15,6 +15,7 @@ const props = defineProps<{
     email: string
     phone: string
     place: string
+    tag: string
     info: string
 }>()
 
@@ -78,7 +79,7 @@ const popup = ref<boolean>(false)
             <p>Ozvěte se studentovi {{ props.firstName }} {{ props.lastName }} na e-mail: <NuxtLink :to="props.email"
                     target="_blank"> {{ props.email }}</NuxtLink> nebo na číslo {{ props.phone }}.</p>
             <p>{{ props.info }}</p>
-            <span>{{ props.place }}</span>
+            <span>Lokalita: {{ props.place }}</span> <span>Tag: {{ props.tag }}</span>
         </div>
         <div v-if="accepted === null" class="flex flex-col justify-between w-[200px]">
             <div @click="changeMeetingValue(true)" class="arrow-link cursor-pointer flex justify-between w-full">

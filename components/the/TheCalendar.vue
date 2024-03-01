@@ -30,12 +30,13 @@ const meetingHours = reactive<{
     end: ''
 })
 
-const studentInfo = <{
+const studentInfo = reactive<{
     first_name: string
     last_name: string
     email: string
     phone: string
     place: string
+    tag: string
     info: string
 }>({
     first_name: '',
@@ -43,6 +44,7 @@ const studentInfo = <{
     email: '',
     phone: '',
     place: '',
+    tag: '',
     info: ''
 })
 
@@ -50,6 +52,12 @@ const emailPattern = /[^\s@]+@[^\s@]+\.[^\s@]+/
 
 const emailValidation = computed(() => {
     return emailPattern.test(studentInfo.email)
+})
+
+const phonePattern = /^\+?[0-9\s()-]{9,15}$/
+
+const phoneValidation = computed(() => {
+    return phonePattern.test(studentInfo.phone)
 })
 
 const selectedHour = computed(() => {
@@ -107,10 +115,17 @@ const popup = ref<{
 })
 
 async function scheduleMeeting() {
-    if (meetingHours.start === '' || meetingHours.end === '' || studentInfo.first_name === '' || studentInfo.last_name === '' || studentInfo.email === '' || studentInfo.phone === '' || studentInfo.place === '') {
+    if (!emailValidation.value && !phoneValidation.value) {
         popup.value = {
             value: true,
-            type: 'error'
+            type: 'phone-email'
+        }
+        return
+    }
+    if (!phoneValidation.value) {
+        popup.value = {
+            value: true,
+            type: 'phone'
         }
         return
     }
@@ -121,8 +136,15 @@ async function scheduleMeeting() {
         }
         return
     }
-    if (emailValidation.value) {
-        const { data, error } = await client
+    if (meetingHours.start === '' || meetingHours.end === '' || studentInfo.first_name === '' || studentInfo.last_name === '' || studentInfo.email === '' || studentInfo.phone === '' || studentInfo.place === '') {
+        popup.value = {
+            value: true,
+            type: 'error'
+        }
+        return
+    }
+    if (emailValidation.value && phoneValidation.value) {
+        await client
             .from('calendar_db')
             .insert([{
                 year: selectedValues.year,
@@ -132,9 +154,10 @@ async function scheduleMeeting() {
                 lecturer_uuid: props.uuid,
                 first_name: studentInfo.first_name.replace(/\s/g, ''),
                 last_name: studentInfo.last_name.replace(/\s/g, ''),
-                email: studentInfo.email.replace(/\s/g, ''),
+                email: studentInfo.email,
                 phone: studentInfo.phone.replace(/\s/g, ''),
                 place: studentInfo.place.replace(/\s/g, ''),
+                tag: studentInfo.tag,
                 info: studentInfo.info
             }])
         popup.value = {
@@ -148,6 +171,19 @@ const { data } = await client
     .from('calendar_db')
     .select()
     .eq('lecturer_uuid', props.uuid)
+
+const { data: tags } = await client
+    .from('lecturer_db')
+    .select('tags')
+    .eq('lecturer_uuid', props.uuid)
+
+const tagsArray: string[] = []
+
+tags?.forEach((item: any) => {
+    item.tags.forEach((tag: string) => {
+        tagsArray.push(tag)
+    })
+})
 </script>
 <template>
     <div class="p-3 grid place-items-center">
@@ -198,10 +234,16 @@ const { data } = await client
                 <label>Místo: <span class="text-sky">*</span></label>
                 <input v-model="studentInfo.place" type="text" placeholder="Místo*" class="border-b-2 border-sky" />
             </div>
+            <div class="flex flex-col gap-1 border-b-2 border-sky">
+                <label>Tag: <span class="text-sky">*</span></label>
+                <select v-model="studentInfo.tag" >
+                    <option v-for="tag in tagsArray" placeholder="Tyber tag*">{{ tag.name }}</option>
+                </select>
+            </div>
         </div>
         <div class="flex flex-col gap-1 pt-3 w-[480px]">
-            <label>Dodatečné informace pro lektora:</label>
-            <textarea v-model="studentInfo.info" placeholder="Dodatečné informace pro lektora" class="border-b-2 border-sky h-20" />
+            <label>Dodatečné informace pro lektora: <span class="text-sky">*</span></label>
+            <textarea v-model="studentInfo.info" placeholder="Dodatečné informace pro lektora*" class="border-b-2 border-sky h-20" />
         </div>
         <div class="flex gap-6 mt-6">
             <button @click="scheduleMeeting()"
@@ -223,7 +265,7 @@ const { data } = await client
                         <button @click="popup.value = !popup.value">&#10006;</button>
                     </div>
                     <div>
-                        <h2 class="text-error">Vyplňte čas schůze, jméno, příjmení, e-mail a telefon.</h2>
+                        <h2 class="text-error">Vyplňte čas schůze, jméno, příjmení, místo, tag a dodatečné informace.</h2>
                     </div>
                 </template>
                 <template v-if="popup.type === 'email'">
@@ -232,6 +274,22 @@ const { data } = await client
                     </div>
                     <div>
                         <h2 class="text-error">E-mail není ve správném formátu.</h2>
+                    </div>
+                </template>
+                <template v-if="popup.type === 'phone'">
+                    <div class="text-2xl w-full flex justify-end">
+                        <button @click="popup.value = !popup.value">&#10006;</button>
+                    </div>
+                    <div>
+                        <h2 class="text-error">Telefonní číslo není ve správném formátu.</h2>
+                    </div>
+                </template>
+                <template v-if="popup.type === 'phone-email'">
+                    <div class="text-2xl w-full flex justify-end">
+                        <button @click="popup.value = !popup.value">&#10006;</button>
+                    </div>
+                    <div>
+                        <h2 class="text-error">Telefonní číslo a e-mail nejsou ve správném formátu.</h2>
                     </div>
                 </template>
                 <template v-if="popup.type === 'success'">
