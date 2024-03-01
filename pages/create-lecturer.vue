@@ -19,12 +19,6 @@ data?.forEach((item: any) => {
     id.push(item.lecturer_uuid)
 })
 
-if (!userId.value) {
-    navigateTo('/lecturer')
-}
-
-console.log(id[0], userId.value)
-
 const teacherData = reactive<any>({
     title_before: '',
     first_name: '',
