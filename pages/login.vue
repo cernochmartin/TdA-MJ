@@ -15,6 +15,12 @@ const credentials = reactive({
     password: ''
 })
 
+const emailPattern = /[^\s@]+@[^\s@]+\.[^\s@]+/
+
+const emailValidation = computed(() => {
+    return emailPattern.test(credentials.email)
+})
+
 const type = ref(false)
 const popup = ref(false)
 const loginError = ref()
@@ -32,14 +38,15 @@ async function login() {
         email: credentials.email,
         password: credentials.password
     })
-    if (error) {
+    if (error && emailValidation.value) {
         popup.value = true
         loginError.value = error.message
     }
-    if (query) {
-        navigateTo('/create-lecturer')
+    if (!emailValidation) {
+        popup.value = true
     }
-    if (isEmpty()) navigateTo('/')
+    if (query && emailValidation.value && !error) navigateTo('/create-lecturer')
+    if (isEmpty() && emailValidation.value && !error) navigateTo('/')
 }
 
 async function signUp() {
@@ -78,9 +85,9 @@ async function signUp() {
                 se</button>
             <button v-else @click="login()" :disabled="!credentials.email && !credentials.password">Přihlásit
                 se</button>
-            <button v-if="type" @click="type = !type">Již mám založený účet</button>
-            <button v-else @click="type = !type">Nemám založený účet</button>
-            <NuxtLink to="/" class="text-center">Chci pokračovat bez účtu</NuxtLink>
+            <button v-if="type" @click="type = !type">Již mám založený profil</button>
+            <button v-if="!type && isEmpty()" @click="type = !type">Nemám založený profil</button>
+            <NuxtLink v-if="isEmpty()" to="/" class="text-center">Chci pokračovat bez profilu</NuxtLink>
         </article>
     </div>
 
@@ -97,8 +104,11 @@ async function signUp() {
                     <template v-else>
                         <h2 class="text-success">Byl Vám zaslán e-mail s potvrzením registrace na adresu {{ emailData }}.
                         </h2>
-                        <p>Po potvrzení se přihlašte a pokud jste lektor, tak si vytvořte profil lektora.</p>
+                        <p>Po potvrzení se přihlašte a vytvořte si profil lektora.</p>
                     </template>
+                </div>
+                <div v-if="!emailValidation">
+                    <h2 class="text-error">E-mail není ve správném formátu.</h2>
                 </div>
                 <div v-else>
                     <h2 v-if="loginError" class="text-error">{{ loginError }}</h2>

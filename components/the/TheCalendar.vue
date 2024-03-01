@@ -46,6 +46,12 @@ const studentInfo = <{
     info: ''
 })
 
+const emailPattern = /[^\s@]+@[^\s@]+\.[^\s@]+/
+
+const emailValidation = computed(() => {
+    return emailPattern.test(studentInfo.email)
+})
+
 const selectedHour = computed(() => {
     return `${meetingHours.start} - ${meetingHours.end}`
 })
@@ -101,14 +107,21 @@ const popup = ref<{
 })
 
 async function scheduleMeeting() {
-    if (meetingHours.start === '' || meetingHours.end === '' || studentInfo.first_name === '' || studentInfo.last_name === '' || studentInfo.email === '' || studentInfo.phone === '') {
+    if (meetingHours.start === '' || meetingHours.end === '' || studentInfo.first_name === '' || studentInfo.last_name === '' || studentInfo.email === '' || studentInfo.phone === '' || studentInfo.place === '') {
         popup.value = {
             value: true,
             type: 'error'
         }
         return
     }
-    else {
+    if (!emailValidation.value) {
+        popup.value = {
+            value: true,
+            type: 'email'
+        }
+        return
+    }
+    if (emailValidation.value) {
         const { data, error } = await client
             .from('calendar_db')
             .insert([{
@@ -166,28 +179,28 @@ const { data } = await client
         <h3 class="text-center my-6">Kontaktní a dodatečné informace studenta</h3>
         <div class="grid grid-cols-2 gap-3 w-[480px]">
             <div class="flex flex-col gap-1">
-                <label>Jméno</label>
-                <input v-model="studentInfo.first_name" type="text" placeholder="Jméno" class="border-b-2 border-sky" />
+                <label>Jméno: <span class="text-sky">*</span></label>
+                <input v-model="studentInfo.first_name" type="text" placeholder="Jméno*" class="border-b-2 border-sky" />
             </div>
             <div class="flex flex-col gap-1">
-                <label>Příjmení</label>
-                <input v-model="studentInfo.last_name" type="text" placeholder="Příjmení" class="border-b-2 border-sky" />
+                <label>Příjmení: <span class="text-sky">*</span></label>
+                <input v-model="studentInfo.last_name" type="text" placeholder="Příjmení*" class="border-b-2 border-sky" />
             </div>
             <div class="flex flex-col gap-1">
-                <label>E-mail</label>
-                <input v-model="studentInfo.email" type="email" placeholder="E-mail" class="border-b-2 border-sky" />
+                <label>E-mail: <span class="text-sky">*</span></label>
+                <input v-model="studentInfo.email" type="email" placeholder="E-mail*" class="border-b-2 border-sky" />
             </div>
             <div class="flex flex-col gap-1">
-                <label>Telefon</label>
-                <input v-model="studentInfo.phone" type="tel" placeholder="Telefon" class="border-b-2 border-sky" />
+                <label>Telefon: <span class="text-sky">*</span></label>
+                <input v-model="studentInfo.phone" type="tel" placeholder="Telefon*" class="border-b-2 border-sky" />
             </div>
             <div class="flex flex-col gap-1">
-                <label>Místo</label>
-                <input v-model="studentInfo.place" type="text" placeholder="Místo" class="border-b-2 border-sky" />
+                <label>Místo: <span class="text-sky">*</span></label>
+                <input v-model="studentInfo.place" type="text" placeholder="Místo*" class="border-b-2 border-sky" />
             </div>
         </div>
         <div class="flex flex-col gap-1 pt-3 w-[480px]">
-            <label>Dodatečné informace pro lektora</label>
+            <label>Dodatečné informace pro lektora:</label>
             <textarea v-model="studentInfo.info" placeholder="Dodatečné informace pro lektora" class="border-b-2 border-sky h-20" />
         </div>
         <div class="flex gap-6 mt-6">
@@ -211,6 +224,14 @@ const { data } = await client
                     </div>
                     <div>
                         <h2 class="text-error">Vyplňte čas schůze, jméno, příjmení, e-mail a telefon.</h2>
+                    </div>
+                </template>
+                <template v-if="popup.type === 'email'">
+                    <div class="text-2xl w-full flex justify-end">
+                        <button @click="popup.value = !popup.value">&#10006;</button>
+                    </div>
+                    <div>
+                        <h2 class="text-error">E-mail není ve správném formátu.</h2>
                     </div>
                 </template>
                 <template v-if="popup.type === 'success'">

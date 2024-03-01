@@ -1,13 +1,6 @@
 <script setup lang="ts">
 import { createEvent } from 'ics'
 
-interface Meeting {
-    year: string;
-    month: string;
-    day: string;
-    hour: string;
-}
-
 const client = useSupabaseClient()
 
 const props = defineProps<{
@@ -21,6 +14,8 @@ const props = defineProps<{
     lastName: string
     email: string
     phone: string
+    place: string
+    info: string
 }>()
 
 const month = Number(props.month) + 1
@@ -82,6 +77,8 @@ const popup = ref<boolean>(false)
             <p class="pt-2">Máte schůzi od {{ props.hour }} dne {{ props.day }}. {{ month }}. {{ props.year }}.</p>
             <p>Ozvěte se studentovi {{ props.firstName }} {{ props.lastName }} na e-mail: <NuxtLink :to="props.email"
                     target="_blank"> {{ props.email }}</NuxtLink> nebo na číslo {{ props.phone }}.</p>
+            <p>{{ props.info }}</p>
+            <span>{{ props.place }}</span>
         </div>
         <div v-if="accepted === null" class="flex flex-col justify-between w-[200px]">
             <div @click="changeMeetingValue(true)" class="arrow-link cursor-pointer flex justify-between w-full">

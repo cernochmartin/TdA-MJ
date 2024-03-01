@@ -77,7 +77,7 @@ const count = computed(() => {
                 @selected="changeDate" />
             <div class="text-center mt-6">
                 <span>
-                    Zobrazujete si den {{ selectedDateValue }}. {{ selectedValues.month + 1 }}. {{ selectedValues.year }},
+                    Zobrazujete si den <span v-if="selectedDateValue">{{ selectedDateValue }}</span><span v-else>x</span>. {{ selectedValues.month + 1 }}. {{ selectedValues.year }},
                     ve kterém máte {{ count }}
                     <span v-if="count === 1">schůzi</span>
                     <span v-else-if="count > 1 && count < 5">schůze</span>
@@ -86,14 +86,17 @@ const count = computed(() => {
             </div>
             <Meeting v-for="time in filteredMeeting" :lecturer-uuid="uuid" :year="time.year" :month="time.month"
                 :day="time.day" :hour="time.hour" :uuid="time.calendar_uuid" :accepted="time.accepted"
-                :first-name="time.first_name" :last-name="time.last_name" :email="time.email" :phone="time.phone" />
+                :first-name="time.first_name" :last-name="time.last_name" :email="time.email" :phone="time.phone"
+                :place="time.place" :info="time.info" />
         </main>
     </template>
+
     <template v-else>
         <main class="container pt-24">
             <h2 class="text-center text-error">Nemáte oprávnění zobrazit si schůze lektora</h2>
-            <h2 v-for="lecturer in body" class="text-center text-error">{{ lecturer.title_before }} {{ lecturer.first_name }} {{
-                lecturer.middle_name }} {{ lecturer.last_name }} {{ lecturer.title_after }}</h2>
+            <h2 v-for="lecturer in body" class="text-center text-error">{{ lecturer.title_before }} {{ lecturer.first_name
+            }} {{
+    lecturer.middle_name }} {{ lecturer.last_name }} {{ lecturer.title_after }}</h2>
         </main>
     </template>
 </template>

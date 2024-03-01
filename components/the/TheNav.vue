@@ -39,7 +39,6 @@ function login() {
             <NuxtLink to="/lecturer">Lektoři</NuxtLink>
             <template v-if="userId">
                 <NuxtLink v-if="userId === id[0]" :to="`/lecturer/${userId}/meetings`">Plánované schůze</NuxtLink>
-                <NuxtLink v-else-if="userId" to="/create-lecturer">Vytvořit profil lektora</NuxtLink>
             </template>
         </div>
         <div class="w-1/3 flex gap-8 justify-end">

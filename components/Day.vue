@@ -86,7 +86,7 @@ const comparingDayjs = computed(() => {
             </div>
             <template v-for="(d, index) in dates" :key="d">
                 <template v-if="index === 0">
-                    <div v-for="i in d.day" :key="i" />
+                    <div /><div v-for="i in d.day" :key="i" />
                 </template>
                 <button v-else class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold"
                     @click="() => selected(d.date)" 
