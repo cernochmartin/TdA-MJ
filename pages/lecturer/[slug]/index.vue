@@ -192,7 +192,7 @@ const editMode = ref(false)
                     </div>
                     <div>
                         <h2 class="text-error">Vážně chcete smazat svůj účet lektora?</h2>
-                        <button @click="deleteLecturer()" class="arrow-link">Ano, chci smazat účet lektora.</button>
+                        <button @click="deleteLecturer()" class="arrow-link">Ano, chci smazat svůj účet lektora.</button>
                     </div>
                 </article>
             </template>

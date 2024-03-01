@@ -25,5 +25,8 @@ export default defineNuxtConfig({
         lang: 'cs-CZ'
       }
     }
+  },
+  supabase: {
+    redirect: false
   }
 })

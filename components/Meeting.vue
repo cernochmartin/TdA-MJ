@@ -26,19 +26,17 @@ const props = defineProps<{
 const month = Number(props.month) + 1
 
 async function changeMeetingValue(value: boolean) {
-    const { data, error } = await client
+    await client
         .from('calendar_db')
         .update({ accepted: value })
         .eq('calendar_uuid', props.uuid)
-    location.reload()
 }
 
 async function deleteMeeting() {
-    const { data, error } = await client
+    await client
         .from('calendar_db')
         .delete()
         .eq('calendar_uuid', props.uuid)
-    location.reload()
 }
 
 const splitHours = props.hour.split('-')

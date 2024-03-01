@@ -1,7 +1,8 @@
-import { client } from '~/utils/supabase'
+import { serverSupabaseClient } from '#supabase/server'
 
 export default defineEventHandler(async (event) => {
-
+    const client = await serverSupabaseClient(event)
+    
     if (event.node.req.method === 'GET') {
         const { data } = await client
             .from('lecturer_db')
