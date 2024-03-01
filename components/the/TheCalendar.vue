@@ -7,13 +7,6 @@ const selectedDateValue = ref<number | null>(dayjs().date())
 const monthEmit = defineEmits<{ (e: 'selected', v: string): void }>()
 
 const hours = [
-    '1:00',
-    '2:00',
-    '3:00',
-    '4:00',
-    '5:00',
-    '6:00',
-    '7:00',
     '8:00',
     '9:00',
     '10:00',
@@ -26,11 +19,7 @@ const hours = [
     '17:00',
     '18:00',
     '19:00',
-    '20:00',
-    '21:00',
-    '22:00',
-    '23:00',
-    '0:00'
+    '20:00'
 ]
 
 const meetingHours = reactive<{
@@ -46,11 +35,15 @@ const studentInfo = <{
     last_name: string
     email: string
     phone: string
+    place: string
+    info: string
 }>({
     first_name: '',
     last_name: '',
     email: '',
-    phone: ''
+    phone: '',
+    place: '',
+    info: ''
 })
 
 const selectedHour = computed(() => {
@@ -58,7 +51,7 @@ const selectedHour = computed(() => {
 })
 
 if (meetingHours.start === '' && meetingHours.end === '') {
-    meetingHours.start = `${dayjs().hour()}:00`
+    meetingHours.start = '8:00'
 }
 
 const meetingEndHours = computed(() => {
@@ -127,7 +120,9 @@ async function scheduleMeeting() {
                 first_name: studentInfo.first_name.replace(/\s/g, ''),
                 last_name: studentInfo.last_name.replace(/\s/g, ''),
                 email: studentInfo.email.replace(/\s/g, ''),
-                phone: studentInfo.phone.replace(/\s/g, '')
+                phone: studentInfo.phone.replace(/\s/g, ''),
+                place: studentInfo.place.replace(/\s/g, ''),
+                info: studentInfo.info
             }])
         popup.value = {
             value: true,
@@ -145,7 +140,8 @@ const { data } = await client
     <div class="p-3 grid place-items-center">
         <Year @selected="changeYear" />
         <Month @selected="changeMonth" />
-        <Day :same-as="data" :selectedValues="selectedValues" :selectedDate="selectedDateValue" @selected="changeDate" />
+        <Day :uuid="uuid" :same-as="data" :selectedValues="selectedValues" :selectedDate="selectedDateValue"
+            @selected="changeDate" />
         <h3 class="text-center mt-6">Informace ke schůzi</h3>
         <section class="flex flex-col gap-2 w-[200px] my-6">
             <div class="flex justify-between">
@@ -167,24 +163,32 @@ const { data } = await client
                 <span v-if="meetingHours.start && meetingHours.end">- {{ `${selectedHour}` }}</span>
             </p>
         </div>
-        <h3 class="text-center my-6">Kontaktní informace studenta</h3>
-        <div class="grid grid-cols-2 w-[400px]">
-            <div>
+        <h3 class="text-center my-6">Kontaktní a dodatečné informace studenta</h3>
+        <div class="grid grid-cols-2 gap-3 w-[480px]">
+            <div class="flex flex-col gap-1">
                 <label>Jméno</label>
-                <input v-model="studentInfo.first_name" type="text" placeholder="Jméno" />
+                <input v-model="studentInfo.first_name" type="text" placeholder="Jméno" class="border-b-2 border-sky" />
             </div>
-            <div>
+            <div class="flex flex-col gap-1">
                 <label>Příjmení</label>
-                <input v-model="studentInfo.last_name" type="text" placeholder="Příjmení" />
+                <input v-model="studentInfo.last_name" type="text" placeholder="Příjmení" class="border-b-2 border-sky" />
             </div>
-            <div>
+            <div class="flex flex-col gap-1">
                 <label>E-mail</label>
-                <input v-model="studentInfo.email" type="email" placeholder="E-mail" />
+                <input v-model="studentInfo.email" type="email" placeholder="E-mail" class="border-b-2 border-sky" />
             </div>
-            <div>
-                <label>Telefon (bez předvolby)</label>
-                <input v-model="studentInfo.phone" type="tel" placeholder="Telefon" />
+            <div class="flex flex-col gap-1">
+                <label>Telefon</label>
+                <input v-model="studentInfo.phone" type="tel" placeholder="Telefon" class="border-b-2 border-sky" />
             </div>
+            <div class="flex flex-col gap-1">
+                <label>Místo</label>
+                <input v-model="studentInfo.place" type="text" placeholder="Místo" class="border-b-2 border-sky" />
+            </div>
+        </div>
+        <div class="flex flex-col gap-1 pt-3 w-[480px]">
+            <label>Dodatečné informace pro lektora</label>
+            <textarea v-model="studentInfo.info" placeholder="Dodatečné informace pro lektora" class="border-b-2 border-sky h-20" />
         </div>
         <div class="flex gap-6 mt-6">
             <button @click="scheduleMeeting()"

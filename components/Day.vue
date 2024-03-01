@@ -17,6 +17,7 @@ const dateProps = defineProps<{
     selectedValues: SelectedValues
     selectedDate: number | null
     sameAs: any
+    uuid?: string
 }>()
 
 const dateEmit = defineEmits<{ (e: 'selected', v: number): void }>()
@@ -68,6 +69,14 @@ const myMonth = computed(() => {
     })
     return days
 })
+
+const comparingProps = computed(() => {
+    return dateProps.selectedValues.year.toString() + (dateProps.selectedValues.month + 1)
+})
+
+const comparingDayjs = computed(() => {
+    return dayjs().year().toString() + (dayjs().month() + 1)
+})
 </script>
 <template>
     <div class="w-full border-2 border-prussian p-3 rounded-b-md">
@@ -80,12 +89,14 @@ const myMonth = computed(() => {
                     <div v-for="i in d.day" :key="i" />
                 </template>
                 <button v-else class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold"
-                    @click="() => selected(d.date)" :class="{
+                    @click="() => selected(d.date)" 
+                    :class="{
                         'ring ring-prussian': d.date === date,
                         'bg-prussian text-white': myMonth.includes(index),
                         'ring ring-sky': (d.date === dayjs().date() && dateProps.selectedValues.month === dayjs().month()
                             && dateProps.selectedValues.year === dayjs().year())
-                    }" :disabled="d.date < dayjs().date()">
+                    }" 
+                    :disabled="$route.path === `/lecturer/${uuid}/calendar` && comparingProps < comparingDayjs || d.date < dayjs().date()">
                     <span>
                         {{ d.date }}
                     </span>

@@ -48,10 +48,10 @@ const duration = (Number(endHour) - Number(startHour)) * 60
 
 function exportToIcs() {
     createEvent({
-        title: 'Schůze ' + props.uuid,
+        title: 'Výuka ' + props.firstName + ' ' + props.lastName,
         description: 'Schůze se studentem ' + props.firstName + ' ' + props.lastName,
         busyStatus: 'FREE',
-        start: [Number(props.year), Number(props.month) + 1, Number(props.day), Number(startHour), 0],
+        start: [Number(props.year), month, Number(props.day), Number(startHour), 0],
         duration: { minutes: duration }
     }, (error, value) => {
         if (error) {
@@ -62,7 +62,7 @@ function exportToIcs() {
         const blob = new Blob([value], { type: 'text/calendar;charset=utf-8;' })
         const link = document.createElement('a')
         link.href = URL.createObjectURL(blob)
-        link.setAttribute('download', 'event.ics')
+        link.setAttribute('download', props.year + '-' + month + '-' + props.day + '_plan-vyuky.ics')
         document.body.appendChild(link)
         link.click()
         document.body.removeChild(link)
@@ -112,7 +112,7 @@ const popup = ref<boolean>(false)
     </article>
     <button @click="exportToIcs()"
         class="animation-up bg-prussian text-white text-center w-full py-2 rounded-md mt-6">Export schůze do formátu
-        .ics</button>
+        iCalendar</button>
 
     <!-- Popup -->
     <div v-show="popup" class="background-overlay h-full">
@@ -120,7 +120,7 @@ const popup = ref<boolean>(false)
             <article
                 class="bg-white text-center mx-auto min-h-[240px] min-w-[480px] max-w-[840px] rounded-xl flex flex-col gap-6 p-6 opacity-90">
                 <div class="text-2xl w-full flex justify-end">
-                    <button @click="navigateTo(`/lecturer/${uuid}`)">&#10006;</button>
+                    <button @click="popup = !popup">&#10006;</button>
                 </div>
                 <div>
                     <h2 class="text-error">Vážně chcete smazat schůzi?</h2>
