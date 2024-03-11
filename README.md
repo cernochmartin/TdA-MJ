@@ -1,4 +1,4 @@
-# Tour de App 2023
+# Teacher digital Agency App
 ### Teacher digital Agency project for lecturers
 
 Built with
